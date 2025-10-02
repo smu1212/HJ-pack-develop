@@ -29,11 +29,10 @@ export default function Estimate1({ onButtonClick }: Estimate1Props) {
   };
 
   return (
-    <section className="w-full px-[100px] py-[60px]">
-      <h1 className="text-5xl font-bold text-center mb-6">주문제작 문의</h1>
+    <section className="w-full px-[450px] py-[60px]">
+      <h1 className="text-5xl font-bold text-center mt-18">주문제작 문의</h1>
 
-      {/* 버튼 */}
-         <div className="text-center mt-36 mb-6">
+         <div className="text-center mt-40 mb-26">
             <button 
             onClick={onButtonClick}
             className="bg-red-200 text-2xl px-12 py-5 rounded-full text-black hover:bg-red-300"
@@ -42,13 +41,12 @@ export default function Estimate1({ onButtonClick }: Estimate1Props) {
             </button>
         </div>
 
-      {/* 문의 목록 테이블 */}
       <div className="flex-1">
-        <table className="w-full border-t border-gray-300 text-center">
+        <table className="w-full border-t border-gray-400 text-center">
           <thead>
-            <tr className="border-b border-gray-300 bg-gray-100">
+            <tr className="border-b border-gray-300 bg-gray-200">
               <th className="py-2 w-[60px]">번호</th>
-              <th className="py-2">제목</th>
+              <th className="py-2"></th>
               <th className="py-2 w-[120px]">이름</th>
               <th className="py-2 w-[120px]">날짜</th>
               <th className="py-2 w-[60px]">조회</th>
@@ -56,54 +54,50 @@ export default function Estimate1({ onButtonClick }: Estimate1Props) {
           </thead>
           <tbody>
             {dummyData.map(({ id, title, name, date, views }) => (
-              <tr key={id} className="border-b border-gray-200">
-                <td className="py-2">{id}</td>
-                <td className="py-2 text-left pl-4">{title}</td>
-                <td className="py-2">{name}</td>
-                <td className="py-2">{date}</td>
-                <td className="py-2">{views}</td>
+              <tr key={id} className="border-b border-gray-300">
+                <td className="py-3.5">{id}</td>
+                <td className="py-3.5 text-left pl-8">{title}</td>
+                <td className="py-3.5">{name}</td>
+                <td className="py-3.5">{date}</td>
+                <td className="py-3.5">{views}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-          {/* 검색 영역 */}
-      <div className="flex items-center gap-4 text-1xl mt-4">
-        {/* 라디오 버튼 */}
-        <div className="flex gap-6">
-          <label className="flex items-center gap-1">
-            <input type="radio" name="searchType" defaultChecked /> 이름
-          </label>
-          <label className="flex items-center gap-1">
-            <input type="radio" name="searchType" /> 제목
-          </label>
-          <label className="flex items-center gap-1">
-            <input type="radio" name="searchType" /> 내용
-          </label>
+        <div className="flex items-center gap-7 text-1xl mt-4">
+          <div className="flex gap-7">
+            <label className="flex items-center gap-1">
+              <input type="radio" name="searchType" defaultChecked /> 이름
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" name="searchType" /> 제목
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" name="searchType" /> 내용
+            </label>
+          </div>
+
+          <input
+            type="text"
+            className="border w-35"
+          />
+          <button className="border px-2 text-gray-500 hover:bg-gray-300 -ml-6">
+            검색
+          </button>
         </div>
 
-        {/* 검색창 */}
-        <input
-          type="text"
-          className="border w-40"
-        />
-        <button className="border px-2 text-gray-500 hover:bg-gray-300 -ml-3">
-          검색
-        </button>
-      </div>
-
-          {/* 페이징 */}
-      <div className="flex justify-center mt-16 space-x-2 text-gray-400 text-sm">
-        <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'<<'}</button>
-        <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'<'}</button>
-        <button className="px-3 py-1 text-blue-600 border-b-2 border-blue-600">1</button>
-        <button className="px-3 py-1 hover:text-blue-600">2</button>
-        <button className="px-3 py-1 hover:text-blue-600">3</button>
-        <button className="px-3 py-1 hover:text-blue-600">4</button>
-        <button className="px-3 py-1 hover:text-blue-600">5</button>
-        <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'>'}</button>
-        <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'>>'}</button>
-      </div>
+        <div className="flex justify-center mt-20 mb-28 space-x-2 text-gray-400">
+          <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'<<'}</button>
+          <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'<'}</button>
+          <button className="px-1 py-1 text-blue-800 border-b-2 border-blue-800 ml-4">1</button>
+          <button className="px-1 py-1 hover:text-blue-800 ml-2">2</button>
+          <button className="px-1 py-1 hover:text-blue-800 ml-2">3</button>
+          <button className="px-1 py-1 hover:text-blue-800 ml-2">4</button>
+          <button className="px-1 py-1 hover:text-blue-800 ml-2">5</button>
+          <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100 ml-4">{'>'}</button>
+          <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'>>'}</button>
+        </div>
         </div>
     </section>
   );
