@@ -1,3 +1,5 @@
+// 주문제작문의 버튼 및 문의 목록 띄우는 컴포넌트
+
 "use client";
 
 import Link from 'next/link';
@@ -12,6 +14,7 @@ export default function Estimate1({ onButtonClick }: Estimate1Props) {
   const [searchType, setSearchType] = useState("이름");
   const [searchText, setSearchText] = useState("");
 
+  // 임시 목록 -> 추후 실제 문의 목록에 연결
   const dummyData = [
     { id: 10, title: "주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
     { id: 9, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },

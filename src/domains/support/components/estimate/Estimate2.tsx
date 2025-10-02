@@ -1,6 +1,12 @@
+// 견적문의 작성하는 컴포넌트
+
 import { useState } from 'react';
 
-export default function Estimate2() {
+interface Estimate2Props {
+  onSubmit: () => void;
+}
+
+export default function Estimate2({ onSubmit }: Estimate2Props) {
   const [formData, setFormData] = useState({
     title: '',
     menu: '',
@@ -50,6 +56,17 @@ export default function Estimate2() {
       ...prev,
       websiteType: type
     }));
+  };
+
+  const handleSubmit = () => {
+    // 필수 항목 검증 (선택사항)
+    if (!formData.name || !formData.contact) {
+      alert('필수 항목을 입력해주세요.');
+      return;
+    }
+    
+    // Estimate3로 이동
+    onSubmit();
   };
 
   return (
@@ -651,7 +668,10 @@ export default function Estimate2() {
             </div>
 
             <div className="flex justify-end border-t border-gray-300 pt-4 mt-6">
-              <button className="px-16 py-2 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-200">
+              <button 
+                onClick={handleSubmit}
+                className="px-16 py-2 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-200"
+              >
                 등 록
               </button>
             </div>
