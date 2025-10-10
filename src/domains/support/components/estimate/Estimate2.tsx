@@ -3,8 +3,15 @@
 import { useState } from 'react';
 
 interface Estimate2Props {
-  onSubmit: () => void;
+  onSubmit: (inquiryData: {
+    title: string;
+    name: string;
+    specification: string;
+    number: string;
+    content: string;
+  }) => void;
 }
+
 
 export default function Estimate2({ onSubmit }: Estimate2Props) {
   const [formData, setFormData] = useState({
@@ -20,8 +27,14 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
     sample: '',
     route: '',
     consentMethod: '',
-    selectedConsentMethods: [] as string[],
-    websiteType: ''
+    selectedConsentMethod: '',
+    consultConsent: '',
+    postProcess: '',
+    printMethod: '',   
+    designFileStatus: '',
+    storageEnvironments: [] as string[],
+    materialTypes: [] as string[],
+    inflowRoutes: [] as string[],
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,34 +52,92 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
     }));
   };
 
-  const handleMultipleConsentClick = (method: string) => {
+  const handleSingleConsentClick = (method: string) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedConsentMethod: prev.selectedConsentMethod === method ? '' : method  // 같은 걸 누르면 취소
+    }));
+  };
+
+
+  const handleStorageEnvironmentClick = (item: string) => {
     setFormData(prev => {
-      const isSelected = prev.selectedConsentMethods.includes(method);
+      const isSelected = prev.storageEnvironments.includes(item);
       return {
         ...prev,
-        selectedConsentMethods: isSelected
-          ? prev.selectedConsentMethods.filter(m => m !== method)
-          : [...prev.selectedConsentMethods, method]
+        storageEnvironments: isSelected
+          ? prev.storageEnvironments.filter(i => i !== item)
+          : [...prev.storageEnvironments, item],
       };
     });
   };
 
-  const handleWebsiteTypeClick = (type: string) => {
+  const handleMaterialTypeClick = (item: string) => {
+    setFormData(prev => {
+      const isSelected = prev.materialTypes.includes(item);
+      return {
+        ...prev,
+        materialTypes: isSelected
+          ? prev.materialTypes.filter(i => i !== item)
+          : [...prev.materialTypes, item],
+      };
+    });
+  };
+
+  const handleInflowRouteClick = (item: string) => {
+    setFormData(prev => {
+      const isSelected = prev.inflowRoutes.includes(item);
+      return {
+        ...prev,
+        inflowRoutes: isSelected
+          ? prev.inflowRoutes.filter(i => i !== item)
+          : [...prev.inflowRoutes, item],
+      };
+    });
+  };
+
+  const handleConsultConsentClick = (value: string) => {
     setFormData(prev => ({
       ...prev,
-      websiteType: type
+      consultConsent: value,
+      selectedConsentMethod: value === '예' ? '' : prev.selectedConsentMethod  // 초기화
+    }));
+  };
+
+  const handlePostProcessClick = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      postProcess: value
+    }));
+  };
+
+  const handlePrintMethodClick = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      printMethod: value
+    }));
+  };
+
+  const handleDesignFileClick = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      designFileStatus: value
     }));
   };
 
   const handleSubmit = () => {
-    // 필수 항목 검증 (선택사항)
-    if (!formData.name || !formData.contact) {
+    if (!formData.name || !formData.contact || !formData.title) {
       alert('필수 항목을 입력해주세요.');
       return;
     }
     
-    // Estimate3로 이동
-    onSubmit();
+    onSubmit({
+      title: formData.title,
+      name: formData.name,
+      specification: formData.specification,
+      number: formData.number,
+      content: formData.content,
+    });
   };
 
   return (
@@ -165,9 +236,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
             </p>
             <div className="flex gap-4 mb-4">
               <button
-                onClick={() => handleConsentMethodClick('예')}
+                onClick={() => handleConsultConsentClick('예')}
                 className={`w-38 h-10 border-2 font-medium ${
-                  formData.consentMethod === '예'
+                  formData.consultConsent === '예'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
                 }`}
@@ -175,9 +246,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                 예
               </button>
               <button
-                onClick={() => handleConsentMethodClick('아니오')}
+                onClick={() => handleConsultConsentClick('아니오')}
                 className={`w-38 h-10 border-2 font-medium ${
-                  formData.consentMethod === '아니오'
+                  formData.consultConsent === '아니오'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
                 }`}
@@ -190,37 +261,40 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
               ※아니오 선택 시 상담 희망 방법 선택
             </p>
             <div className="flex gap-4">
-              <button
-                onClick={() => handleMultipleConsentClick('카카오톡')}
-                className={`w-38 h-10 border-2 font-medium ${
-                  formData.selectedConsentMethods.includes('카카오톡')
-                    ? 'border-blue-800 text-blue-800'
-                    : 'border-gray-350 bg-white text-gray-400'
-                }`}
-              >
-                카카오톡
-              </button>
-              <button
-                onClick={() => handleMultipleConsentClick('메일')}
-                className={`w-38 h-10 border-2 font-medium ${
-                  formData.selectedConsentMethods.includes('메일')
-                    ? 'border-blue-800 text-blue-800'
-                    : 'border-gray-350 bg-white text-gray-400'
-                }`}
-              >
-                메일
-              </button>
-              <button
-                onClick={() => handleMultipleConsentClick('개시판 답변')}
-                className={`w-38 h-10 border-2 font-medium ${
-                  formData.selectedConsentMethods.includes('개시판 답변')
-                    ? 'border-blue-800 text-blue-800'
-                    : 'border-gray-350 bg-white text-gray-400'
-                }`}
-              >
-                개시판 답변
-              </button>
-            </div>
+  <button
+    onClick={() => handleSingleConsentClick('카카오톡')}
+    disabled={formData.consultConsent === '예'}
+    className={`w-38 h-10 border-2 font-medium ${
+      formData.selectedConsentMethod === '카카오톡'
+        ? 'border-blue-800 text-blue-800'
+        : 'border-gray-350 bg-white text-gray-400'
+    } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
+  >
+    카카오톡
+  </button>
+  <button
+    onClick={() => handleSingleConsentClick('메일')}
+    disabled={formData.consultConsent === '예'}
+    className={`w-38 h-10 border-2 font-medium ${
+      formData.selectedConsentMethod === '메일'
+        ? 'border-blue-800 text-blue-800'
+        : 'border-gray-350 bg-white text-gray-400'
+    } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
+  >
+    메일
+  </button>
+  <button
+    onClick={() => handleSingleConsentClick('개시판 답변')}
+    disabled={formData.consultConsent === '예'}
+    className={`w-38 h-10 border-2 font-medium ${
+      formData.selectedConsentMethod === '개시판 답변'
+        ? 'border-blue-800 text-blue-800'
+        : 'border-gray-350 bg-white text-gray-400'
+    } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
+  >
+    개시판 답변
+  </button>
+</div>
           </div>
 
             <div className="mb-8">
@@ -230,9 +304,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                 <div className="space-y-4">  
                     <div className="flex gap-4">
                     <button
-                        onClick={() => handleWebsiteTypeClick('그라비아인쇄(대량제작)')}
+                        onClick={() => handlePrintMethodClick('그라비아인쇄(대량제작)')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '그라비아인쇄(대량제작)'
+                        formData.printMethod === '그라비아인쇄(대량제작)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -240,9 +314,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         그라비아인쇄(대량제작)
                     </button>
                     <button
-                        onClick={() => handleWebsiteTypeClick('플렉소 인쇄(친환경·소량제작)')}
+                        onClick={() => handlePrintMethodClick('플렉소 인쇄(친환경·소량제작)')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '플렉소 인쇄(친환경·소량제작)'
+                        formData.printMethod === '플렉소 인쇄(친환경·소량제작)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -253,9 +327,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     
                     <div className="flex gap-4">
                     <button
-                        onClick={() => handleWebsiteTypeClick('디지털 인쇄(소량제작)')}
+                        onClick={() => handlePrintMethodClick('디지털 인쇄(소량제작)')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '디지털 인쇄(소량제작)'
+                        formData.printMethod === '디지털 인쇄(소량제작)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -263,9 +337,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         디지털 인쇄(소량제작)
                     </button>
                     <button
-                        onClick={() => handleWebsiteTypeClick('기타(상담 후 결정)')}
+                        onClick={() => handlePrintMethodClick('기타(상담 후 결정)')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '기타(상담 후 결정)'
+                        formData.printMethod === '기타(상담 후 결정)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -282,9 +356,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                 </label>
                 <div className="flex gap-4 mb-4">
                     <button
-                        onClick={() => handleMultipleConsentClick('냉장보관')}
+                        onClick={() => handleStorageEnvironmentClick('냉장보관')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('냉장보관')
+                        formData.storageEnvironments.includes('냉장보관')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -292,9 +366,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         냉장보관
                     </button>
                     <button
-                        onClick={() => handleMultipleConsentClick('냉동보관')}
+                        onClick={() => handleStorageEnvironmentClick('냉동보관')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('냉동보관')
+                        formData.storageEnvironments.includes('냉동보관')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -302,9 +376,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         냉동보관
                     </button>
                     <button
-                        onClick={() => handleMultipleConsentClick('실온보관')}
+                        onClick={() => handleStorageEnvironmentClick('실온보관')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('실온보관')
+                        formData.storageEnvironments.includes('실온보관')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -312,9 +386,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         실온보관
                     </button>
                     <button
-                        onClick={() => handleMultipleConsentClick('진공포장')}
+                        onClick={() => handleStorageEnvironmentClick('진공포장')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('진공포장')
+                        formData.storageEnvironments.includes('진공포장')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -330,9 +404,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                 </label>
                 <div className="flex gap-4 space-y-4">
                     <button
-                        onClick={() => handleMultipleConsentClick('PET_PE')}
+                        onClick={() => handleMaterialTypeClick('PET_PE')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('PET_PE')
+                        formData.materialTypes.includes('PET_PE')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -340,9 +414,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         PET_PE
                     </button>
                     <button
-                        onClick={() => handleMultipleConsentClick('NY+PE')}
+                        onClick={() => handleMaterialTypeClick('NY+PE')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('NY+PE')
+                        formData.materialTypes.includes('NY+PE')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -350,9 +424,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         NY+PE
                     </button>
                     <button
-                        onClick={() => handleMultipleConsentClick('OPP+CPP')}
+                        onClick={() => handleMaterialTypeClick('OPP+CPP')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('OPP+CPP')
+                        formData.materialTypes.includes('OPP+CPP')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -363,9 +437,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     
                   <div className="flex gap-4">
                     <button
-                        onClick={() => handleMultipleConsentClick('은박(증착)')}
+                        onClick={() => handleSingleConsentClick('은박(증착)')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('은박(증착)')
+                        formData.selectedConsentMethod.includes('은박(증착)')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -374,9 +448,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     </button>
 
                     <button
-                        onClick={() => handleMultipleConsentClick('크라프트지')}
+                        onClick={() => handleSingleConsentClick('크라프트지')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('크라프트지')
+                        formData.selectedConsentMethod.includes('크라프트지')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -385,9 +459,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     </button>
 
                     <button
-                        onClick={() => handleMultipleConsentClick('친환경 재질(PLA 등)')}
+                        onClick={() => handleSingleConsentClick('친환경 재질(PLA 등)')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('친환경 재질(PLA 등)')
+                        formData.selectedConsentMethod.includes('친환경 재질(PLA 등)')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -396,9 +470,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     </button>
 
                     <button
-                        onClick={() => handleMultipleConsentClick('기타')}
+                        onClick={() => handleSingleConsentClick('기타')}
                         className={`w-38 h-10 border-2 font-medium ${
-                        formData.selectedConsentMethods.includes('기타')
+                        formData.selectedConsentMethod.includes('기타')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -414,9 +488,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     </label>
                     <div className="flex gap-4 mb-4">
                       <button
-                        onClick={() => handleConsentMethodClick('유광')}
+                        onClick={() => handlePostProcessClick('유광')}
                         className={`w-38 h-10 border-2 font-medium ${
-                          formData.consentMethod === '유광'
+                          formData.postProcess === '유광'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -424,9 +498,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         유광
                       </button>
                       <button
-                        onClick={() => handleConsentMethodClick('무광(※디지털 인쇄 불가)')}
+                        onClick={() => handlePostProcessClick('무광(※디지털 인쇄 불가)')}
                         className={`w-48 h-10 border-2 font-medium ${
-                          formData.consentMethod === '무광(※디지털 인쇄 불가)'
+                          formData.postProcess === '무광(※디지털 인쇄 불가)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -434,9 +508,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         무광(※디지털 인쇄 불가)
                       </button>
                       <button
-                        onClick={() => handleConsentMethodClick('후가공 없음')}
+                        onClick={() => handlePostProcessClick('후가공 없음')}
                         className={`w-38 h-10 border-2 font-medium ${
-                          formData.consentMethod === '후가공 없음'
+                          formData.postProcess === '후가공 없음'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -453,9 +527,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                 <div className="space-y-4">  
                     <div className="flex gap-4">
                     <button
-                        onClick={() => handleWebsiteTypeClick('일러스트(ai)파일 보유')}
+                        onClick={() => handleDesignFileClick('일러스트(ai)파일 보유')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '일러스트(ai)파일 보유'
+                        formData.designFileStatus === '일러스트(ai)파일 보유'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -463,9 +537,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         일러스트(ai)파일 보유
                     </button>
                     <button
-                        onClick={() => handleWebsiteTypeClick('디자인 의뢰 예정')}
+                        onClick={() => handleDesignFileClick('디자인 의뢰 예정')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '디자인 의뢰 예정'
+                        formData.designFileStatus === '디자인 의뢰 예정'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -473,9 +547,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         디자인 의뢰 예정
                     </button>
                     <button
-                        onClick={() => handleWebsiteTypeClick('디자인 의뢰 포함')}
+                        onClick={() => handleDesignFileClick('디자인 의뢰 포함')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '디자인 의뢰 포함'
+                        formData.designFileStatus === '디자인 의뢰 포함'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -486,9 +560,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                     
                     <div className="flex gap-4">
                     <button
-                        onClick={() => handleWebsiteTypeClick('로고/이미지만 보유')}
+                        onClick={() => handleDesignFileClick('로고/이미지만 보유')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '로고/이미지만 보유'
+                        formData.designFileStatus === '로고/이미지만 보유'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -496,9 +570,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                         로고/이미지만 보유
                     </button>
                     <button
-                        onClick={() => handleWebsiteTypeClick('참고 시안 있음')}
+                        onClick={() => handleDesignFileClick('참고 시안 있음')}
                         className={`w-60 h-10 border-2 font-medium ${
-                        formData.websiteType === '참고 시안 있음'
+                        formData.designFileStatus === '참고 시안 있음'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
                         }`}
@@ -588,9 +662,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                 <div className="space-y-4">  
                     <div className="flex gap-4">
                       <button
-                          onClick={() => handleMultipleConsentClick('기존고객')}
+                          onClick={() => handleInflowRouteClick('기존고객')}
                           className={`w-30 h-10 border-2 font-medium ${
-                          formData.selectedConsentMethods.includes('기존고객')
+                          formData.inflowRoutes.includes('기존고객')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
                           }`}
@@ -598,9 +672,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                           기존고객
                       </button>
                       <button
-                          onClick={() => handleMultipleConsentClick('검색')}
+                          onClick={() => handleInflowRouteClick('검색')}
                           className={`w-30 h-10 border-2 font-medium ${
-                          formData.selectedConsentMethods.includes('검색')
+                          formData.inflowRoutes.includes('검색')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
                           }`}
@@ -608,9 +682,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                           검색
                       </button>
                       <button
-                          onClick={() => handleMultipleConsentClick('SNS/블로그')}
+                          onClick={() => handleInflowRouteClick('SNS/블로그')}
                           className={`w-30 h-10 border-2 font-medium ${
-                          formData.selectedConsentMethods.includes('SNS/블로그')
+                          formData.inflowRoutes.includes('SNS/블로그')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
                           }`}
@@ -618,9 +692,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                           SNS/블로그
                       </button>
                       <button
-                          onClick={() => handleMultipleConsentClick('소개/지인')}
+                          onClick={() => handleInflowRouteClick('소개/지인')}
                           className={`w-30 h-10 border-2 font-medium ${
-                          formData.selectedConsentMethods.includes('소개/지인')
+                          formData.inflowRoutes.includes('소개/지인')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
                           }`}
@@ -628,9 +702,9 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
                           소개/지인
                       </button>
                       <button
-                          onClick={() => handleMultipleConsentClick('기타(직접입력)')}
+                          onClick={() => handleInflowRouteClick('기타(직접입력)')}
                           className={`w-30 h-10 border-2 font-medium ${
-                          formData.selectedConsentMethods.includes('기타(직접입력)')
+                          formData.inflowRoutes.includes('기타(직접입력)')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
                           }`}

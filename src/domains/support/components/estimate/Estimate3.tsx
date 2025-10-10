@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 
-export default function Estimate3() {
+interface Estimate3Props {
+  inquiryData: {
+    title: string;
+    name: string;
+    specification: string;
+    number: string;
+    content: string;
+    date?: string;
+  } | null;
+  onBack: () => void;
+}
+
+export default function Estimate3({ inquiryData, onBack }: Estimate3Props) {
   const [inquiryContent, setInquiryContent] = useState("");
   const [answer, setAnswer] = useState("");
 
@@ -13,12 +25,19 @@ export default function Estimate3() {
   };
 
   const handleDelete = () => {
-    alert("삭제 기능 실행");
+    if (confirm("정말 삭제하시겠습니까?")) {
+      onBack();
+    }
   };
 
   const handleReply = () => {
     alert("답변: " + answer);
+    onBack();
   };
+
+  if (!inquiryData) {
+    return <div>문의 내용이 없습니다.</div>;
+  }
 
   return (
     <div className="w-full px-[450px] py-[60px]">
@@ -27,22 +46,21 @@ export default function Estimate3() {
       <div className="border-t-3 border-gray-300 mt-40" />
 
       <div className="mb-10 text-gray-700 mt-3">
-        {/* 문의사항 제목 */}
-        <p className="mb-3 ml-3 text-lg">주문제작 견적 문의드립니다.</p>
+        
+        <p className="mb-3 ml-3 text-lg">{inquiryData.title}</p>
         <hr className="mb-6 border-1 border-gray-200" />
-        {/* 문의사항 내용 */}
+        
         <div className="h-80 space-y-1 ml-3 text-lg">
-          <p>이름</p>
-          <p>제작수량</p>
-          <p>재질 등</p>
-          <p>문의 정보 내용</p>
+          <p>이름: {inquiryData.name}</p>
+          <p>제작 규격: {inquiryData.specification}</p>
+          <p>제작 수량: {inquiryData.number}</p>
+          <p>포장 내용물: {inquiryData.content}</p>
         </div>
       </div>
 
-      {/* 작성자, 작성날짜 */}
       <div className="flex justify-end text-gray-500 mb-6">
-        <span>홍길*</span>
-        <span className="ml-3">2025/08/26</span>
+        <span>{inquiryData.name.substring(0, 2)}*</span>
+        <span className="ml-3">{inquiryData.date}</span>
       </div>
 
       <hr className="mb-6 border-1 border-gray-200" />

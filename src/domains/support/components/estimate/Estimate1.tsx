@@ -4,28 +4,22 @@
 
 import Link from 'next/link';
 import { useState } from "react";
-
-// props 추가
 interface Estimate1Props {
+  inquiries: InquiryData[];
   onButtonClick?: () => void;
 }
 
-export default function Estimate1({ onButtonClick }: Estimate1Props) {
+export interface InquiryData {
+  id: number;
+  title: string;
+  name: string;
+  date: string;
+  views: number;
+}
+
+export default function Estimate1({ inquiries, onButtonClick }: Estimate1Props) {
   const [searchType, setSearchType] = useState("이름");
   const [searchText, setSearchText] = useState("");
-
-  // 임시 목록 -> 추후 실제 문의 목록에 연결
-  const dummyData = [
-    { id: 10, title: "주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 9, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 7, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 6, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 5, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 4, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 3, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 2, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 1, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-  ];
 
   const handleSearch = () => {
     console.log("검색:", searchType, searchText);
@@ -47,16 +41,16 @@ export default function Estimate1({ onButtonClick }: Estimate1Props) {
       <div className="flex-1">
         <table className="w-full border-t border-gray-400 text-center">
           <thead>
-            <tr className="border-b border-gray-300 bg-gray-200">
+            <tr className="border-b border-gray-300 bg-[#ededed]">
               <th className="py-2 w-[60px]">번호</th>
               <th className="py-2"></th>
               <th className="py-2 w-[120px]">이름</th>
               <th className="py-2 w-[120px]">날짜</th>
-              <th className="py-2 w-[60px]">조회</th>
+              <th className="py-2 w-[90px]">조회</th>
             </tr>
           </thead>
           <tbody>
-            {dummyData.map(({ id, title, name, date, views }) => (
+            {inquiries.map(({ id, title, name, date, views }) => (
               <tr key={id} className="border-b border-gray-300">
                 <td className="py-3.5">{id}</td>
                 <td className="py-3.5 text-left pl-8">{title}</td>
@@ -93,15 +87,15 @@ export default function Estimate1({ onButtonClick }: Estimate1Props) {
         <div className="flex justify-center mt-20 mb-28 space-x-2 text-gray-400">
           <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'<<'}</button>
           <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'<'}</button>
-          <button className="px-1 py-1 text-blue-800 border-b-2 border-blue-800 ml-4">1</button>
-          <button className="px-1 py-1 hover:text-blue-800 ml-2">2</button>
-          <button className="px-1 py-1 hover:text-blue-800 ml-2">3</button>
-          <button className="px-1 py-1 hover:text-blue-800 ml-2">4</button>
-          <button className="px-1 py-1 hover:text-blue-800 ml-2">5</button>
+          <button className="px-1 py-1 h-7 text-blue-800 border-b-2 border-blue-800 ml-4">1</button>
+          <button className="px-1 py-1 h-7 hover:text-blue-800 ml-2">2</button>
+          <button className="px-1 py-1 h-7 hover:text-blue-800 ml-2">3</button>
+          <button className="px-1 py-1 h-7 hover:text-blue-800 ml-2">4</button>
+          <button className="px-1 py-1 h-7 hover:text-blue-800 ml-2">5</button>
           <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100 ml-4">{'>'}</button>
           <button className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100">{'>>'}</button>
         </div>
-        </div>
+      </div>
     </section>
   );
 }

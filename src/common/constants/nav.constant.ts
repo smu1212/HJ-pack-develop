@@ -45,7 +45,7 @@ export const NAV_MENUS: NavMenusType[] = [
     path: '/support',
     submenus: [
       { name: '견적문의', path: '/support?section=estimate' },
-      { name: '공지사항', path: '/support?section=notice' },
+      { name: '공지사항', path: '/support/notice' },
     ],
   },
 ];
