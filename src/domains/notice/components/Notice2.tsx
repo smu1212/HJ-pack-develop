@@ -66,13 +66,13 @@ export default function Notice2({ onBackClick }: Notice2Props) {
         <div className="flex gap-2 mr-2">
           <button
             onClick={handleDelete}
-            className="w-22 h-7 border-2 border-gray-300 text-gray-400 hover:bg-gray-100"
+            className="w-24 h-8 border-2 border-gray-300 text-gray-400 hover:bg-gray-100"
           >
             삭 제
           </button>
           <button
             onClick={handleSubmit}
-            className="w-22 h-7 bg-blue-200 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-300"
+            className="w-24 h-8 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-300"
           >
             글쓰기
           </button>

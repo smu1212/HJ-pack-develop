@@ -202,7 +202,7 @@ export default function Notice1({ onWriteClick }: Notice1Props) {
 
             <button 
                 onClick={onWriteClick}
-                className="w-22 h-8 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-200"
+                className="w-22 h-8 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-300 mr-2"
             >
                 글쓰기
             </button>
