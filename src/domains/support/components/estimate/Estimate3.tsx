@@ -1,3 +1,5 @@
+// 견적문의 답변 컴포넌트
+
 import React, { useState } from "react";
 
 interface Estimate3Props {

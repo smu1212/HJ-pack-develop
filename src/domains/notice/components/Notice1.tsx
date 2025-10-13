@@ -2,101 +2,87 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Notice {
   id: number;
   title: string;
-  author: string;
-  date: string;
-  views: number;
+  createdAt: string;
+}
+
+interface ApiResponse {
+  list: Notice[];
+  pageCount: number;
+  total: number;
 }
 
 interface Notice1Props {
   onWriteClick?: () => void;
+  onDetailClick?: (id: number) => void;
+  notices?: any[];
 }
 
-export default function Notice1({ onWriteClick }: Notice1Props) {
+export default function Notice1({ onWriteClick, onDetailClick, notices: initialNotices }: Notice1Props) {
   const [activeTab, setActiveTab] = useState<'notice' | 'report'>('notice');
   const [searchType, setSearchType] = useState<'title' | 'content' | 'author'>('title');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [notices, setNotices] = useState<Notice[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const itemsPerPage = 10;
 
-  // 더미 데이터
-  const notices: Notice[] = Array.from({ length: 10 }, (_, i) => ({
-    id: 10 - i,
-    title: i === 0 ? '2025년 여름휴가 안내' : '핵전쟁 공식 홈페이지 오픈 안내',
-    author: '홍길*',
-    date: '2025/08/26',
-    views: 0,
-  }));
+  const fetchNotices = async (page: number = 1) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        take: '10',
+        title: searchQuery,
+        sort: 'latest',
+      });
 
-  const totalPages = 5;
+      const response = await fetch(
+        `https://api.dev.hj-pack.eoe.sh/notice?${params.toString()}`
+      );
 
-  const handleSearch = () => {
-    console.log('검색:', searchType, searchQuery);
+      if (!response.ok) {
+        throw new Error('공지사항을 불러오지 못했습니다.');
+      }
+
+      const data: ApiResponse = await response.json();
+      setNotices(data.list);
+      setTotal(data.total);
+      setCurrentPage(page);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
+      // 초기 더미 데이터 사용
+      if (initialNotices && initialNotices.length > 0) {
+        setNotices(initialNotices);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const renderPagination = () => {
-    const pages = [];
-    
-    pages.push(
-      <button
-        key="first"
-        onClick={() => setCurrentPage(1)}
-        className="px-3 py-1 text-gray-400 hover:text-gray-600"
-      >
-        «
-      </button>
-    );
-    
-    pages.push(
-      <button
-        key="prev"
-        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-        className="px-3 py-1 text-gray-400 hover:text-gray-600"
-      >
-        ‹
-      </button>
-    );
+  useEffect(() => {
+    fetchNotices(1);
+  }, []);
 
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          className={`px-3 py-1 ${
-            currentPage === i
-              ? 'font-bold text-black'
-              : 'text-gray-400 hover:text-gray-600'
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
+  const handleSearch = () => {
+    setCurrentPage(1);
+    fetchNotices(1);
+  };
 
-    pages.push(
-      <button
-        key="next"
-        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-        className="px-3 py-1 text-gray-400 hover:text-gray-600"
-      >
-        ›
-      </button>
-    );
+  const handlePageChange = (page: number) => {
+    fetchNotices(page);
+  };
 
-    pages.push(
-      <button
-        key="last"
-        onClick={() => setCurrentPage(totalPages)}
-        className="px-3 py-1 text-gray-400 hover:text-gray-600"
-      >
-        »
-      </button>
-    );
-
-    return pages;
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   };
 
   return (
@@ -128,6 +114,12 @@ export default function Notice1({ onWriteClick }: Notice1Props) {
       </div>
 
       <div className="flex-1">
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+
         <table className="w-full border-t border-gray-400 text-center">
           <thead>
             <tr className="border-b border-gray-300 bg-[#ededed]">
@@ -139,15 +131,36 @@ export default function Notice1({ onWriteClick }: Notice1Props) {
             </tr>
           </thead>
           <tbody>
-            {notices.map((notice) => (
-              <tr key={notice.id} className="border-b border-gray-300">
-                <td className="py-3.5">{notice.id}</td>
-                <td className="py-3.5 text-left pl-8">{notice.title}</td>
-                <td className="py-3.5">{notice.author}</td>
-                <td className="py-3.5">{notice.date}</td>
-                <td className="py-3.5">{notice.views}</td>
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="py-8 text-center text-gray-500">
+                  로딩 중...
+                </td>
               </tr>
-            ))}
+            ) : notices.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="py-8 text-center text-gray-500">
+                  공지사항이 없습니다.
+                </td>
+              </tr>
+            ) : (
+              notices.map((notice) => (
+                <tr 
+                  key={notice.id} 
+                  className="border-b border-gray-300 hover:bg-gray-10 cursor-pointer"
+                  onClick={() => {
+                    console.log('클릭됨:', notice.id);
+                    onDetailClick?.(notice.id);
+                  }}
+                >
+                  <td className="py-3.5">{notice.id}</td>
+                  <td className="py-3.5 text-left pl-8">{notice.title}</td>
+                  <td className="py-3.5">홍길*</td>
+                  <td className="py-3.5">{formatDate(notice.createdAt)}</td>
+                  <td className="py-3.5">0</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 
@@ -195,6 +208,7 @@ export default function Notice1({ onWriteClick }: Notice1Props) {
                 <button
                 onClick={handleSearch}
                 className="border px-2 text-gray-500 hover:bg-gray-300 -ml-1"
+                disabled={loading}
                 >
                     검색
                 </button>
@@ -210,39 +224,47 @@ export default function Notice1({ onWriteClick }: Notice1Props) {
 
         <div className="flex justify-center mt-20 mb-28 space-x-2 text-gray-400">
           <button
-            onClick={() => setCurrentPage(1)}
+            onClick={() => handlePageChange(1)}
             className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100"
+            disabled={loading || currentPage === 1}
           >
             {'<<'}
           </button>
           <button
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100"
+            disabled={loading || currentPage === 1}
           >
             {'<'}
           </button>
-          {[1, 2, 3, 4, 5].map((page) => (
+          {Array.from(
+            { length: Math.ceil(total / itemsPerPage) },
+            (_, i) => i + 1
+          ).map((page) => (
             <button
               key={page}
-              onClick={() => setCurrentPage(page)}
+              onClick={() => handlePageChange(page)}
               className={`w-3 py-1 h-7 ${
                 currentPage === page
                   ? 'text-blue-800 border-b-2 border-blue-800'
                   : 'hover:text-blue-800'
               } ${page === 1 ? 'ml-4' : 'ml-2'}`}
+              disabled={loading}
             >
               {page}
             </button>
           ))}
           <button
-            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            onClick={() => handlePageChange(Math.min(Math.ceil(total / itemsPerPage), currentPage + 1))}
             className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100 ml-4"
+            disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
           >
             {'>'}
           </button>
           <button
-            onClick={() => setCurrentPage(totalPages)}
+            onClick={() => handlePageChange(Math.ceil(total / itemsPerPage))}
             className="w-8 h-8 border border-gray-300 rounded-full hover:bg-gray-100"
+            disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
           >
             {'>>'}
           </button>

@@ -125,25 +125,73 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
     }));
   };
 
-  const handleSubmit = () => {
-    if (!formData.name || !formData.contact || !formData.title) {
-      alert('필수 항목을 입력해주세요.');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async () => {
+    setError(null);
+    
+    if (!formData.name || !formData.contact || !formData.menu) {
+      setError('필수 항목을 입력해주세요.');
       return;
     }
-    
-    onSubmit({
-      title: formData.title,
-      name: formData.name,
-      specification: formData.specification,
-      number: formData.number,
-      content: formData.content,
-    });
+
+    setIsLoading(true);
+
+    try {
+      const requestData = {
+        name: formData.name,
+        phone: formData.contact,
+        email: formData.menu,
+        company: formData.businessType,
+        companyPhone: formData.contact,
+        content: `제목: ${formData.title}\n규격: ${formData.specification}\n수량: ${formData.number}\n내용: ${formData.content}`
+      };
+
+      const response = await fetch('https://api.dev.hj-pack.eoe.sh/estimate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API 요청 실패: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      onSubmit?.({
+        title: formData.title,
+        name: formData.name,
+        specification: formData.specification,
+        number: formData.number,
+        content: formData.content,
+      });
+
+      alert('견적 요청이 성공적으로 접수되었습니다.');
+      console.log('API 응답:', data);
+
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : '요청 중 오류가 발생했습니다.';
+      setError(errorMessage);
+      console.error('API 에러:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="w-full px-[450px] py-[60px]">
       <div className="max-w-6xl mx-auto bg-white">
         <h1 className="text-5xl font-bold text-center mt-18">주문제작 문의</h1>
+
+        {error && (
+          <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
 
         <div className="border-t-3 border-gray-400 pt-8 mt-40">
           <div className="flex items-center mb-6">
@@ -261,40 +309,40 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
               ※아니오 선택 시 상담 희망 방법 선택
             </p>
             <div className="flex gap-4">
-  <button
-    onClick={() => handleSingleConsentClick('카카오톡')}
-    disabled={formData.consultConsent === '예'}
-    className={`w-38 h-10 border-2 font-medium ${
-      formData.selectedConsentMethod === '카카오톡'
-        ? 'border-blue-800 text-blue-800'
-        : 'border-gray-350 bg-white text-gray-400'
-    } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
-  >
-    카카오톡
-  </button>
-  <button
-    onClick={() => handleSingleConsentClick('메일')}
-    disabled={formData.consultConsent === '예'}
-    className={`w-38 h-10 border-2 font-medium ${
-      formData.selectedConsentMethod === '메일'
-        ? 'border-blue-800 text-blue-800'
-        : 'border-gray-350 bg-white text-gray-400'
-    } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
-  >
-    메일
-  </button>
-  <button
-    onClick={() => handleSingleConsentClick('개시판 답변')}
-    disabled={formData.consultConsent === '예'}
-    className={`w-38 h-10 border-2 font-medium ${
-      formData.selectedConsentMethod === '개시판 답변'
-        ? 'border-blue-800 text-blue-800'
-        : 'border-gray-350 bg-white text-gray-400'
-    } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
-  >
-    개시판 답변
-  </button>
-</div>
+              <button
+                onClick={() => handleSingleConsentClick('카카오톡')}
+                disabled={formData.consultConsent === '예'}
+                className={`w-38 h-10 border-2 font-medium ${
+                  formData.selectedConsentMethod === '카카오톡'
+                    ? 'border-blue-800 text-blue-800'
+                    : 'border-gray-350 bg-white text-gray-400'
+                } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                카카오톡
+              </button>
+              <button
+                onClick={() => handleSingleConsentClick('메일')}
+                disabled={formData.consultConsent === '예'}
+                className={`w-38 h-10 border-2 font-medium ${
+                  formData.selectedConsentMethod === '메일'
+                    ? 'border-blue-800 text-blue-800'
+                    : 'border-gray-350 bg-white text-gray-400'
+                } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                메일
+              </button>
+              <button
+                onClick={() => handleSingleConsentClick('개시판 답변')}
+                disabled={formData.consultConsent === '예'}
+                className={`w-38 h-10 border-2 font-medium ${
+                  formData.selectedConsentMethod === '개시판 답변'
+                    ? 'border-blue-800 text-blue-800'
+                    : 'border-gray-350 bg-white text-gray-400'
+                } ${formData.consultConsent === '예' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                개시판 답변
+              </button>
+            </div>
           </div>
 
             <div className="mb-8">
@@ -744,9 +792,10 @@ export default function Estimate2({ onSubmit }: Estimate2Props) {
             <div className="flex justify-end border-t border-gray-300 pt-4 mt-6">
               <button 
                 onClick={handleSubmit}
-                className="px-16 py-2 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-200"
+                disabled={isLoading}
+                className="px-16 py-2 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                등 록
+                {isLoading ? '접수 중...' : '등 록'}
               </button>
             </div>
 

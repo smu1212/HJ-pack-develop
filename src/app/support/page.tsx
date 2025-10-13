@@ -8,7 +8,7 @@ import Estimate1 from '@domains/support/components/estimate/Estimate1';
 import Estimate2 from '@domains/support/components/estimate/Estimate2';
 import Estimate3 from '@domains/support/components/estimate/Estimate3';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export interface InquiryData {
   id: number;
@@ -24,12 +24,11 @@ export interface InquiryDetailData {
   specification: string;
   number: string;
   content: string;
-  date?: string; 
+  date?: string;
 }
 
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
-
   const [inquiries, setInquiries] = useState<InquiryData[]>([
     { id: 10, title: "주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
     { id: 9, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
@@ -44,12 +43,12 @@ export default function Page() {
 
   const [selectedInquiry, setSelectedInquiry] = useState<InquiryDetailData | null>(null);
 
+  // 🔹 문의 추가
   const handleAddInquiry = (inquiryData: InquiryDetailData) => {
     const today = new Date();
     const dateStr = `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}`;
-    
     const newId = inquiries.length > 0 ? Math.max(...inquiries.map(i => i.id)) + 1 : 1;
-    
+
     const newInquiry: InquiryData = {
       id: newId,
       title: inquiryData.title,
@@ -57,33 +56,78 @@ export default function Page() {
       date: dateStr,
       views: 0,
     };
-    
+
     setInquiries([newInquiry, ...inquiries]);
     setSelectedInquiry({ ...inquiryData, date: dateStr });
   };
 
+  // 🔹 브라우저 history와 currentStep 동기화
+  useEffect(() => {
+    // ✅ 초기 진입 시점에도 pushState로 스택을 명시적으로 추가
+    window.history.replaceState({ step: 1 }, '');
+    
+    const handlePopState = (event: PopStateEvent) => {
+      const state = event.state;
+      if (state && state.step) {
+        setCurrentStep(state.step);
+      } else {
+        // 혹시 state가 없을 때 기본값 복구
+        setCurrentStep(1);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // 🔹 스텝 변경 시 pushState로 기록
+  const changeStep = (step: number) => {
+    setCurrentStep(step);
+    window.history.pushState({ step }, '');
+  };
+
+  // 🔹 화면 렌더링
   const renderContent = () => {
-    switch(currentStep) {
+    switch (currentStep) {
       case 1:
-        return <Estimate1 inquiries={inquiries} onButtonClick={() => setCurrentStep(2)} />;
+        return (
+          <Estimate1
+            inquiries={inquiries}
+            onButtonClick={() => changeStep(2)}
+          />
+        );
       case 2:
-        return <Estimate2 onSubmit={(inquiryData) => {
-          handleAddInquiry(inquiryData);
-          setCurrentStep(3);
-        }} />;
+        return (
+          <Estimate2
+            onSubmit={(inquiryData) => {
+              handleAddInquiry(inquiryData);
+              changeStep(1);
+            }}
+          />
+        );
       case 3:
-        return <Estimate3 inquiryData={selectedInquiry} onBack={() => setCurrentStep(1)} />;
+        return (
+          <Estimate3
+            inquiryData={selectedInquiry}
+            onBack={() => changeStep(1)}
+          />
+        );
       default:
-        return <Estimate1 inquiries={inquiries} onButtonClick={() => setCurrentStep(2)} />;
+        return (
+          <Estimate1
+            inquiries={inquiries}
+            onButtonClick={() => changeStep(2)}
+          />
+        );
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1 pt-[120px]">
-        {renderContent()}
-      </main>
+      <main className="flex-1 pt-[120px]">{renderContent()}</main>
       <Footer />
     </div>
   );

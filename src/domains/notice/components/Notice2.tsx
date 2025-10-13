@@ -1,29 +1,67 @@
-// 공지사항 작성 컴포넌트
-
 'use client';
 
 import { useState } from 'react';
 
 interface Notice2Props {
   onBackClick?: () => void;
+  onAddNotice?: (notice: { title: string; content: string }) => void;
+  accessToken?: string | null; // ✅ accessToken 추가
 }
 
-export default function Notice2({ onBackClick }: Notice2Props) {
+export default function Notice2({ onBackClick, onAddNotice, accessToken }: Notice2Props) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = () => {
-    console.log('제목:', title);
-    console.log('내용:', content);
-    console.log('PW:', password);
-    // 여기서 API 호출 또는 상위 컴포넌트 전달 가능
+  // 토큰 없으면 accessToken prop 사용
+  const getAccessToken = () => accessToken;
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !content.trim()) {
+      alert('제목과 내용을 입력해주세요.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+
+      const token = getAccessToken();
+      if (!token) throw new Error('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
+
+      const response = await fetch('https://api.dev.hj-pack.eoe.sh/notice', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData?.message || '공지사항 생성에 실패했습니다.');
+      }
+
+      const data = await response.json();
+      onAddNotice?.(data);
+      handleDelete();
+      onBackClick?.();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDelete = () => {
     setTitle('');
     setContent('');
-    setPassword('');
+    setError(null);
   };
 
   return (
@@ -32,12 +70,19 @@ export default function Notice2({ onBackClick }: Notice2Props) {
 
       <div className="border-t-3 border-gray-300 mt-40" />
 
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+          {error}
+        </div>
+      )}
+
       <input
         type="text"
         placeholder="제목"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className="w-full text-lg py-2 mt-1 mb-1 focus:outline-none ml-4"
+        disabled={loading}
       />
 
       <hr className="border-1 border-gray-200" />
@@ -47,34 +92,26 @@ export default function Notice2({ onBackClick }: Notice2Props) {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="w-full h-140 p-4 mt-3 mb-6 text-lg resize-none focus:outline-none"
+        disabled={loading}
       />
 
       <hr className="border-1 border-gray-200 mb-4" />
 
-      <div className="flex items-center w-full justify-between mb-30">
-        <div className="flex items-center gap-2">
-          <label className="font-medium">PW<span className="text-red-500">*</span></label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 px-2 h-8 ml-2"
-          />
-          <span className="text-red-500 ml-2">자동 잠금</span>
-        </div>
-
-        <div className="flex gap-2 mr-2">
+      <div className="flex items-center w-full justify-between mb-40">
+        <div className="flex gap-2 mr-2 ml-auto">
           <button
             onClick={handleDelete}
-            className="w-24 h-8 border-2 border-gray-300 text-gray-400 hover:bg-gray-100"
+            className="w-24 h-8 border-2 border-gray-300 text-gray-400 hover:bg-gray-100 disabled:opacity-50"
+            disabled={loading}
           >
             삭 제
           </button>
           <button
             onClick={handleSubmit}
-            className="w-24 h-8 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-300"
+            className="w-24 h-8 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-300 disabled:opacity-50"
+            disabled={loading}
           >
-            글쓰기
+            {loading ? '저장 중...' : '글쓰기'}
           </button>
         </div>
       </div>
