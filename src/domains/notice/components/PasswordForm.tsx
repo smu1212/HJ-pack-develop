@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuthStore } from '@store/global/authStore';
 import { useModalStore } from '@store/global/modal.store';
 import * as crypto from 'crypto';
@@ -15,8 +15,16 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
+  const accessToken = useAuthStore((s) => s.accessToken);
   const setToken = useAuthStore((s) => s.setToken);
   const closeModal = useModalStore((s) => s.closeModal);
+
+  useEffect(() => {
+    if (accessToken) {
+      closeModal();
+      onSuccess?.();
+    }
+  }, [accessToken, closeModal, onSuccess]);
 
   const sha256Hex = (str: string): string => {
     return crypto.createHash('sha256').update(str).digest('hex');
@@ -51,7 +59,6 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
 
       setToken(data.accessToken);
       setPassword('');
-      closeModal();
       onSuccess?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : '오류가 발생했습니다.');

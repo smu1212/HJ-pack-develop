@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import PasswordForm from '@domains/notice/components/PasswordForm';
 import Notice1 from '@domains/notice/components/Notice1';
@@ -21,14 +22,31 @@ export default function Page() {
     const params = new URLSearchParams();
     params.set('step', step);
     if (id) params.set('id', String(id));
-    // ✅ 현재 페이지 경로 유지하면서 쿼리만 변경
     router.push(`?${params.toString()}`);
   };
+
+  useEffect(() => {
+    if (accessToken && view === 'password') {
+      goStep('list');
+    }
+  }, [accessToken, view]);
 
   const handleAddNotice = (newNotice: { title: string; content: string }) => {
     console.log('새 공지사항:', newNotice);
     goStep('list');
   };
+
+  if (!accessToken && view !== 'password') {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1 pt-[120px]">
+          <PasswordForm onSuccess={() => goStep('list')} />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
