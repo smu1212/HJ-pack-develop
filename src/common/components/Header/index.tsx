@@ -29,12 +29,8 @@ export default function Header() {
         onMouseLeave={() => setIsHovered(false)}
       >
         <Link
-          href='/support?section=estimate'
+          href='/'
           className='relative h-[30px] w-[144px]'
-          onClick={() => {
-            // Support 클릭 시 page.tsx의 step 초기화
-            localStorage.setItem('currentStep', '1');
-          }}
         >
           <Image
             src={isMainHeader ? '/assets/images/hjpack_logo_main.svg' : '/assets/images/hjpack_logo.svg'}
