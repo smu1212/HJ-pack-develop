@@ -29,17 +29,20 @@ export default function SubMenuGroup({
     <div className='flex flex-col items-center'>
       {/* main menu 버튼 */}
       <button
-        type='button'
-        onClick={() => {
-          handleNavigate(menu.path);
-        }}
-        className={cn(
-          'cursor-pointer pb-[90px] font-bold hover:text-[#FF5A3D]',
-          isMainHeader ? 'text-white' : 'text-black',
-        )}
-      >
-        {menu.name}
-      </button>
+  type='button'
+  onClick={() => {
+    if (menu.path.startsWith('/support')) {
+      localStorage.setItem('currentStep', '1'); // 항상 Estimate1
+    }
+    handleNavigate(menu.path);
+  }}
+  className={cn(
+    'cursor-pointer pb-[90px] font-bold hover:text-[#FF5A3D]',
+    isMainHeader ? 'text-white' : 'text-black',
+  )}
+>
+  {menu.name}
+</button>
 
       {/* sub menu 리스트 (hover 시 표시) */}
       {menu.submenus.length > 0 && (
@@ -54,6 +57,10 @@ export default function SubMenuGroup({
               <button
                 type='button'
                 onClick={() => {
+                  // Support 메뉴 클릭 시 Estimate1 초기화
+                  if (submenu.path.startsWith('/support')) {
+                    localStorage.setItem('currentStep', '1');
+                  }
                   handleNavigate(submenu.path);
                 }}
                 className='cursor-pointer hover:text-[#FF5A3D]'

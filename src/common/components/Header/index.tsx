@@ -13,7 +13,6 @@ export default function Header() {
   const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
 
-  // 메인 페이지 + hover 상태가 아닐 때만 흰색 로고 사용
   const isMainHeader = pathname === '/' && !isHovered;
 
   return (
@@ -29,14 +28,16 @@ export default function Header() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* 로고 - 메인 페이지는 흰색 로고, 그 외는 기본 로고 */}
-        <Link href='/' className='relative h-[30px] w-[144px]'>
+        <Link
+          href='/support?section=estimate'
+          className='relative h-[30px] w-[144px]'
+          onClick={() => {
+            // Support 클릭 시 page.tsx의 step 초기화
+            localStorage.setItem('currentStep', '1');
+          }}
+        >
           <Image
-            src={
-              isMainHeader
-                ? '/assets/images/hjpack_logo_main.svg'
-                : '/assets/images/hjpack_logo.svg'
-            }
+            src={isMainHeader ? '/assets/images/hjpack_logo_main.svg' : '/assets/images/hjpack_logo.svg'}
             alt='logo'
             fill
             className='object-contain'
@@ -44,7 +45,6 @@ export default function Header() {
           />
         </Link>
 
-        {/* navigation bar */}
         <nav className='flex justify-center gap-[140px] text-[20px]'>
           {NAV_MENUS.map((menu) => (
             <SubMenuGroup
@@ -56,7 +56,6 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* 우측 아이콘 (hover 시 나타남) */}
         <div className='relative h-[24px] w-[24px] opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
           <Image
             src='/assets/icons/menu-icon.svg'
@@ -67,7 +66,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 구분선 (hover 시 나타남) */}
       <div
         className={cn(
           'absolute left-0 top-[120px] w-full border-t border-[#C8C8C8] transition-all duration-300 ease-in-out',

@@ -43,7 +43,6 @@ export default function Page() {
 
   const [selectedInquiry, setSelectedInquiry] = useState<InquiryDetailData | null>(null);
 
-  // 🔹 문의 추가
   const handleAddInquiry = (inquiryData: InquiryDetailData) => {
     const today = new Date();
     const dateStr = `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}`;
@@ -61,18 +60,33 @@ export default function Page() {
     setSelectedInquiry({ ...inquiryData, date: dateStr });
   };
 
-  // 🔹 브라우저 history와 currentStep 동기화
   useEffect(() => {
-    // ✅ 초기 진입 시점에도 pushState로 스택을 명시적으로 추가
-    window.history.replaceState({ step: 1 }, '');
-    
+    // 새로고침 여부
+    const navigationEntries = performance.getEntriesByType("navigation");
+    const isReload =
+      navigationEntries.length > 0 &&
+      (navigationEntries[0] as PerformanceNavigationTiming).type === "reload";
+
+    // Estimate2 유지 조건
+    const savedStep = localStorage.getItem('currentStep');
+    if (isReload && savedStep === '2') {
+      setCurrentStep(2);
+      window.history.replaceState({ step: 2 }, '');
+    } else {
+      setCurrentStep(1);
+      localStorage.setItem('currentStep', '1');
+      window.history.replaceState({ step: 1 }, '');
+    }
+
     const handlePopState = (event: PopStateEvent) => {
       const state = event.state;
       if (state && state.step) {
         setCurrentStep(state.step);
+        if (state.step === 2) localStorage.setItem('currentStep', '2');
+        else localStorage.setItem('currentStep', '1');
       } else {
-        // 혹시 state가 없을 때 기본값 복구
         setCurrentStep(1);
+        localStorage.setItem('currentStep', '1');
       }
     };
 
@@ -82,13 +96,18 @@ export default function Page() {
     };
   }, []);
 
-  // 🔹 스텝 변경 시 pushState로 기록
+
   const changeStep = (step: number) => {
     setCurrentStep(step);
+    // Estimate2일 때만 localStorage 저장
+    if (step === 2) {
+      localStorage.setItem('currentStep', '2');
+    } else {
+      localStorage.setItem('currentStep', '1');
+    }
     window.history.pushState({ step }, '');
   };
 
-  // 🔹 화면 렌더링
   const renderContent = () => {
     switch (currentStep) {
       case 1:
