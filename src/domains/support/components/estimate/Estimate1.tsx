@@ -32,7 +32,7 @@ export default function Estimate1({ inquiries, onButtonClick }: Estimate1Props) 
          <div className="text-center mt-40 mb-26">
             <button 
             onClick={onButtonClick}
-            className="bg-red-200 text-2xl px-12 h-15 rounded-full text-black hover:bg-red-300"
+            className="bg-red-200 text-2xl w-70 h-15 rounded-full text-black hover:bg-red-300 font-medium"
             >
             주문제작 견적문의
             </button>

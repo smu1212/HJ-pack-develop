@@ -1,5 +1,3 @@
-// 공지사항 목록 컴포넌트
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -40,9 +38,19 @@ export default function Notice1({ onWriteClick, onDetailClick, notices: initialN
       const params = new URLSearchParams({
         page: page.toString(),
         take: '10',
-        title: searchQuery,
         sort: 'latest',
       });
+
+      // searchType에 따라 다른 파라미터 추가
+      if (searchQuery) {
+        if (searchType === 'title') {
+          params.append('title', searchQuery);
+        } else if (searchType === 'content') {
+          params.append('content', searchQuery);
+        } else if (searchType === 'author') {
+          params.append('author', searchQuery);
+        }
+      }
 
       const response = await fetch(
         `https://api.dev.hj-pack.eoe.sh/notice?${params.toString()}`
@@ -171,11 +179,21 @@ export default function Notice1({ onWriteClick, onDetailClick, notices: initialN
                     <input
                     type="radio"
                     name="searchType"
+                    value="author"
+                    checked={searchType === 'author'}
+                    onChange={(e) => setSearchType(e.target.value as 'author')}
+                    />
+                        이름
+                </label>
+                <label className="flex items-center gap-1">
+                    <input
+                    type="radio"
+                    name="searchType"
                     value="title"
                     checked={searchType === 'title'}
                     onChange={(e) => setSearchType(e.target.value as 'title')}
                     />
-                        이름
+                        제목
                 </label>
                 <label className="flex items-center gap-1">
                     <input
@@ -184,16 +202,6 @@ export default function Notice1({ onWriteClick, onDetailClick, notices: initialN
                     value="content"
                     checked={searchType === 'content'}
                     onChange={(e) => setSearchType(e.target.value as 'content')}
-                    />
-                        제목
-                </label>
-                <label className="flex items-center gap-1">
-                    <input
-                    type="radio"
-                    name="searchType"
-                    value="author"
-                    checked={searchType === 'author'}
-                    onChange={(e) => setSearchType(e.target.value as 'author')}
                     />
                         내용
                 </label>
