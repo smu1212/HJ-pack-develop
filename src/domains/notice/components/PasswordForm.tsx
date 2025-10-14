@@ -7,6 +7,7 @@ import * as crypto from 'crypto';
 
 interface PasswordFormProps {
   onSuccess?: () => void;
+  returnTo?: 'write' | 'detail';
 }
 
 export default function PasswordForm({ onSuccess }: PasswordFormProps) {
@@ -19,6 +20,7 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
   const setToken = useAuthStore((s) => s.setToken);
   const closeModal = useModalStore((s) => s.closeModal);
 
+  // 이미 인증된 상태인지 확인 (다른 곳에서 돌아왔을 때)
   useEffect(() => {
     if (accessToken) {
       closeModal();
@@ -70,7 +72,7 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto mt-30">
-      <h2 className="mb-6 text-xl font-bold text-gray-900 text-center">비밀번호 입력</h2>
+      <h2 className="mb-6 text-xl font-bold text-gray-900">비밀번호 입력</h2>
 
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm font-medium animate-in fade-in">

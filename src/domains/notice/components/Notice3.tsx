@@ -30,13 +30,15 @@ interface Notice3Props {
   onBackClick?: () => void;
   onPrevClick?: (id: number) => void;
   onNextClick?: (id: number) => void;
+  onAuthRequired?: () => void;
 }
 
 export default function Notice3({ 
   noticeId, 
   onBackClick, 
   onPrevClick,
-  onNextClick
+  onNextClick,
+  onAuthRequired
 }: Notice3Props) {
   const [notice, setNotice] = useState<NoticeDetail | null>(null);
   const [loading, setLoading] = useState(false);
@@ -74,7 +76,22 @@ export default function Notice3({
     }
   };
 
-  // ✅ 공지 수정
+  const handleEditClick = () => {
+    if (!accessToken) {
+      onAuthRequired?.();
+      return;
+    }
+    setIsEditing(true);
+  };
+
+  const handleDeleteClick = () => {
+    if (!accessToken) {
+      onAuthRequired?.();
+      return;
+    }
+    handleDeleteNotice();
+  };
+
   const handleUpdateNotice = async () => {
     if (!notice) return;
 
@@ -107,7 +124,6 @@ export default function Notice3({
     }
   };
 
-  // ✅ 공지 삭제
   const handleDeleteNotice = async () => {
     if (!notice) return;
     if (!confirm('정말로 이 공지사항을 삭제하시겠습니까?')) return;
@@ -125,7 +141,7 @@ export default function Notice3({
       }
 
       alert('공지사항이 삭제되었습니다.');
-      onBackClick?.(); // 목록으로 돌아가기
+      onBackClick?.(); 
     } catch (err) {
       alert(err instanceof Error ? err.message : '삭제 중 오류가 발생했습니다.');
     }
@@ -231,7 +247,6 @@ export default function Notice3({
         </div>
       </div>
 
-      {/* 버튼 영역 */}
       <div className="flex justify-center gap-3 mt-12 mb-28">
         {isEditing ? (
           <>
@@ -251,13 +266,13 @@ export default function Notice3({
         ) : (
           <>
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={handleEditClick}
               className="px-6 py-2 bg-blue-400 text-white font-medium rounded hover:bg-blue-600"
             >
               수정
             </button>
             <button
-              onClick={handleDeleteNotice}
+              onClick={handleDeleteClick}
               className="px-6 py-2 bg-red-400 text-white font-medium rounded hover:bg-red-600"
             >
               삭제
