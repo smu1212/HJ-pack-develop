@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@store/global/authStore';
 
 interface Image {
@@ -40,6 +41,7 @@ export default function Notice3({
   onNextClick,
   onAuthRequired
 }: Notice3Props) {
+  const searchParams = useSearchParams();
   const [notice, setNotice] = useState<NoticeDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,6 +54,22 @@ export default function Notice3({
   useEffect(() => {
     fetchNoticeDetail();
   }, [noticeId]);
+
+  // 페이지 새로고침 후 URL에서 edit 파라미터 체크
+  useEffect(() => {
+    if (searchParams.get('edit') === 'true' && accessToken) {
+      setIsEditing(true);
+    } else {
+      setIsEditing(false);
+    }
+  }, [accessToken, searchParams]);
+
+  // 편집 모드 상태 변경 감지
+  useEffect(() => {
+    if (!searchParams.get('edit') && isEditing) {
+      setIsEditing(false);
+    }
+  }, [searchParams]);
 
   const fetchNoticeDetail = async () => {
     setLoading(true);

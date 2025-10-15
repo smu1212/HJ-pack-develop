@@ -18,10 +18,13 @@ export default function Page() {
   const view = searchParams.get('step') as 'list' | 'password' | 'write' | 'detail' || 'list';
   const noticeId = searchParams.get('id') ? Number(searchParams.get('id')) : null;
 
-  const goStep = (step: 'list' | 'password' | 'write' | 'detail', id?: number) => {
+
+
+  const goStep = (step: 'list' | 'password' | 'write' | 'detail', id?: number, edit?: boolean) => {
     const params = new URLSearchParams();
     params.set('step', step);
     if (id) params.set('id', String(id));
+    if (edit) params.set('edit', 'true');
     router.push(`?${params.toString()}`);
   };
 
@@ -38,15 +41,24 @@ export default function Page() {
     if (returnTo === 'write') {
       goStep('write');
     } else if (returnTo === 'detail') {
-      // detail로 돌아가면 인증 완료 상태에서 수정/삭제 가능
-      window.location.reload();
+      const noticeId = searchParams.get('noticeId');
+      // replace를 사용해서 password 페이지를 history에서 제거
+      const params = new URLSearchParams();
+      params.set('step', 'detail');
+      params.set('id', String(noticeId));
+      params.set('edit', 'true');
+      router.replace(`?${params.toString()}`);
     } else {
       goStep('write');
     }
   };
 
   const handleDetailAuthRequired = () => {
-    router.push(`?step=password&returnTo=detail`);
+    const params = new URLSearchParams();
+    params.set('step', 'password');
+    params.set('returnTo', 'detail');
+    params.set('noticeId', String(noticeId));
+    router.replace(`?${params.toString()}`);
   };
 
   const handleAddNotice = (newNotice: { title: string; content: string }) => {
