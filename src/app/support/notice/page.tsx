@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import PasswordForm from '@domains/notice/components/PasswordForm';
-import Notice1 from '@domains/notice/components/Notice1';
-import Notice2 from '@domains/notice/components/Notice2';
-import Notice3 from '@domains/notice/components/Notice3';
+import NoticeList from '@domains/notice/components/NoticeList';
+import NoticeWrite from '@domains/notice/components/NoticeWrite';
+import NoticeDetail from '@domains/notice/components/NoticeDetail';
 import { useAuthStore } from '@store/global/authStore';
 import Header from '@comp/Header';
 import Footer from '@comp/Footer';
@@ -71,7 +71,7 @@ export default function Page() {
       <Header />
       <main className="flex-1 pt-[120px]">
         {view === 'list' && (
-          <Notice1 
+          <NoticeList 
             onWriteClick={handleWriteClick}
             onDetailClick={(id) => goStep('detail', id)}
           />
@@ -80,14 +80,14 @@ export default function Page() {
           <PasswordForm onSuccess={handlePasswordSuccess} />
         )}
         {view === 'write' && (
-          <Notice2 
+          <NoticeWrite 
             onBackClick={() => goStep('list')}
             onAddNotice={handleAddNotice}
             accessToken={accessToken}
           />
         )}
         {view === 'detail' && (
-          <Notice3 
+          <NoticeDetail 
             noticeId={noticeId || 0}
             onBackClick={() => goStep('list')}
             onPrevClick={(id) => goStep('detail', id)}

@@ -1,3 +1,5 @@
+// 문의 목록
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -14,13 +16,13 @@ interface ApiResponse {
   total: number;
 }
 
-interface Notice1Props {
+interface NoticeListProps {
   onWriteClick?: () => void;
   onDetailClick?: (id: number) => void;
   notices?: any[];
 }
 
-export default function Notice1({ onWriteClick, onDetailClick, notices: initialNotices }: Notice1Props) {
+export default function NoticeList({ onWriteClick, onDetailClick, notices: initialNotices }: NoticeListProps) {
   const [activeTab, setActiveTab] = useState<'notice' | 'report'>('notice');
   const [searchType, setSearchType] = useState<'title' | 'content' | 'author'>('title');
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,7 +98,7 @@ export default function Notice1({ onWriteClick, onDetailClick, notices: initialN
   return (
     <div className="w-full px-[450px] py-[60px]">
       
-      <h1 className="text-5xl font-bold text-center mt-18">공지사항</h1>
+      <h1 className="text-[48px] font-bold text-center mt-18">공지사항</h1>
 
       <div className="mt-40 mb-8 flex justify-center gap-4 mb-26">
         <button

@@ -26,7 +26,7 @@ interface NoticeDetail {
   nextNotice: RelatedNotice | null;
 }
 
-interface Notice3Props {
+interface NoticeDetailProps {
   noticeId: number;
   onBackClick?: () => void;
   onPrevClick?: (id: number) => void;
@@ -40,7 +40,7 @@ export default function Notice3({
   onPrevClick,
   onNextClick,
   onAuthRequired
-}: Notice3Props) {
+}: NoticeDetailProps) {
   const searchParams = useSearchParams();
   const [notice, setNotice] = useState<NoticeDetail | null>(null);
   const [loading, setLoading] = useState(false);

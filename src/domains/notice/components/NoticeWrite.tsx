@@ -2,19 +2,18 @@
 
 import { useState } from 'react';
 
-interface Notice2Props {
+interface NoticeWriteProps {
   onBackClick?: () => void;
   onAddNotice?: (notice: { title: string; content: string }) => void;
   accessToken?: string | null; // ✅ accessToken 추가
 }
 
-export default function Notice2({ onBackClick, onAddNotice, accessToken }: Notice2Props) {
+export default function Notice2({ onBackClick, onAddNotice, accessToken }: NoticeWriteProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 토큰 없으면 accessToken prop 사용
   const getAccessToken = () => accessToken;
 
   const handleSubmit = async () => {
