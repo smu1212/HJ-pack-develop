@@ -20,7 +20,6 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
   const setToken = useAuthStore((s) => s.setToken);
   const closeModal = useModalStore((s) => s.closeModal);
 
-  // 이미 인증된 상태인지 확인 (다른 곳에서 돌아왔을 때)
   useEffect(() => {
     if (accessToken) {
       closeModal();

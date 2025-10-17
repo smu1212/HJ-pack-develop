@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-interface Estimate3Props {
+interface EstimateDetailProps {
   inquiryData: {
     title: string;
     name: string;
@@ -14,7 +14,7 @@ interface Estimate3Props {
   onBack: () => void;
 }
 
-export default function Estimate3({ inquiryData, onBack }: Estimate3Props) {
+export default function EstimateDetail({ inquiryData, onBack }: EstimateDetailProps) {
   const [inquiryContent, setInquiryContent] = useState("");
   const [answer, setAnswer] = useState("");
 

@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import { useState } from "react";
-interface Estimate1Props {
+interface EstimateListProps {
   inquiries: InquiryData[];
   onButtonClick?: () => void;
 }
@@ -17,7 +17,7 @@ export interface InquiryData {
   views: number;
 }
 
-export default function Estimate1({ inquiries, onButtonClick }: Estimate1Props) {
+export default function EstimateList({ inquiries, onButtonClick }: EstimateListProps) {
   const [searchType, setSearchType] = useState("이름");
   const [searchText, setSearchText] = useState("");
 

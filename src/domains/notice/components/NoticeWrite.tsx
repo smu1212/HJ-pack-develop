@@ -8,7 +8,7 @@ interface NoticeWriteProps {
   accessToken?: string | null; // ✅ accessToken 추가
 }
 
-export default function Notice2({ onBackClick, onAddNotice, accessToken }: NoticeWriteProps) {
+export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: NoticeWriteProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);

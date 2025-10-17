@@ -34,7 +34,7 @@ interface NoticeDetailProps {
   onAuthRequired?: () => void;
 }
 
-export default function Notice3({ 
+export default function NoticeDetail({ 
   noticeId, 
   onBackClick, 
   onPrevClick,
@@ -55,7 +55,6 @@ export default function Notice3({
     fetchNoticeDetail();
   }, [noticeId]);
 
-  // 페이지 새로고침 후 URL에서 edit 파라미터 체크
   useEffect(() => {
     if (searchParams.get('edit') === 'true' && accessToken) {
       setIsEditing(true);
@@ -64,7 +63,6 @@ export default function Notice3({
     }
   }, [accessToken, searchParams]);
 
-  // 편집 모드 상태 변경 감지
   useEffect(() => {
     if (!searchParams.get('edit') && isEditing) {
       setIsEditing(false);

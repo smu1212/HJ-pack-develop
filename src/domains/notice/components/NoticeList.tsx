@@ -43,7 +43,6 @@ export default function NoticeList({ onWriteClick, onDetailClick, notices: initi
         sort: 'latest',
       });
 
-      // searchType에 따라 다른 파라미터 추가
       if (searchQuery) {
         if (searchType === 'title') {
           params.append('title', searchQuery);
@@ -68,7 +67,6 @@ export default function NoticeList({ onWriteClick, onDetailClick, notices: initi
       setCurrentPage(page);
     } catch (err) {
       setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
-      // 초기 더미 데이터 사용
       if (initialNotices && initialNotices.length > 0) {
         setNotices(initialNotices);
       }

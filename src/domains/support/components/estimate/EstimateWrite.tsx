@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-interface Estimate2Props {
+interface EstimateWriteProps {
   onSubmit: (inquiryData: {
     title: string;
     name: string;
@@ -13,7 +13,7 @@ interface Estimate2Props {
 }
 
 
-export default function Estimate2({ onSubmit }: Estimate2Props) {
+export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
   const [formData, setFormData] = useState({
     title: '',
     menu: '',

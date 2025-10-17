@@ -42,7 +42,6 @@ export default function Page() {
       goStep('write');
     } else if (returnTo === 'detail') {
       const noticeId = searchParams.get('noticeId');
-      // replace를 사용해서 password 페이지를 history에서 제거
       const params = new URLSearchParams();
       params.set('step', 'detail');
       params.set('id', String(noticeId));

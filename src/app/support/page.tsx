@@ -4,9 +4,9 @@
 
 import Footer from '@comp/Footer';
 import Header from '@comp/Header';
-import Estimate1 from '@domains/support/components/estimate/Estimate1';
-import Estimate2 from '@domains/support/components/estimate/Estimate2';
-import Estimate3 from '@domains/support/components/estimate/Estimate3';
+import EstimateList from '@domains/support/components/estimate/EstimateList';
+import EstimateWrite from '@domains/support/components/estimate/EstimateWrite';
+import EstimateDetail from '@domains/support/components/estimate/EstimateDetail';
 
 import { useState, useEffect } from 'react';
 
@@ -61,13 +61,11 @@ export default function Page() {
   };
 
   useEffect(() => {
-    // 새로고침 여부
     const navigationEntries = performance.getEntriesByType("navigation");
     const isReload =
       navigationEntries.length > 0 &&
       (navigationEntries[0] as PerformanceNavigationTiming).type === "reload";
 
-    // Estimate2 유지 조건
     const savedStep = localStorage.getItem('currentStep');
     if (isReload && savedStep === '2') {
       setCurrentStep(2);
@@ -99,7 +97,6 @@ export default function Page() {
 
   const changeStep = (step: number) => {
     setCurrentStep(step);
-    // Estimate2일 때만 localStorage 저장
     if (step === 2) {
       localStorage.setItem('currentStep', '2');
     } else {
@@ -112,14 +109,14 @@ export default function Page() {
     switch (currentStep) {
       case 1:
         return (
-          <Estimate1
+          <EstimateList
             inquiries={inquiries}
             onButtonClick={() => changeStep(2)}
           />
         );
       case 2:
         return (
-          <Estimate2
+          <EstimateWrite
             onSubmit={(inquiryData) => {
               handleAddInquiry(inquiryData);
               changeStep(1);
@@ -128,14 +125,14 @@ export default function Page() {
         );
       case 3:
         return (
-          <Estimate3
+          <EstimateDetail
             inquiryData={selectedInquiry}
             onBack={() => changeStep(1)}
           />
         );
       default:
         return (
-          <Estimate1
+          <EstimateList
             inquiries={inquiries}
             onButtonClick={() => changeStep(2)}
           />
