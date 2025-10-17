@@ -203,7 +203,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
+              className="flex-1 border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
@@ -216,7 +216,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="menu"
               value={formData.menu}
               onChange={handleInputChange}
-              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
+              className="flex-1 border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
@@ -229,7 +229,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="contact"
               value={formData.contact}
               onChange={handleInputChange}
-              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
+              className="flex-1 border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
@@ -241,7 +241,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               value={formData.businessType}
               onChange={handleInputChange}
               placeholder="(선택)"
-              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
+              className="flex-1 border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
@@ -258,7 +258,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
               />
             </div>
-            <div className="flex-[4px]">
+            <div className="flex-1">
               <div className="flex items-center">
                 <label className="w-[88px] flex-shrink-0 text-[18px] ml-[32px]">
                   비밀번호<span className="text-red-500">*</span>
@@ -659,7 +659,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.specification}
                 onChange={handleInputChange}
                 placeholder="ex) 170 X 270 mm"
-                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
+                className="flex-1 border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
@@ -673,7 +673,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.number}
                 onChange={handleInputChange}
                 placeholder="ex) 5,000장, 10,000장, 50,000장 이상 등"
-                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
+                className="flex-1 border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
@@ -687,7 +687,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.content}
                 onChange={handleInputChange}
                 placeholder="ex) 오징어채, 과일젤리, 화장품 샘플 등"
-                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
+                className="flex-1 border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
@@ -699,7 +699,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.sample}
                 onChange={handleInputChange}
                 placeholder="ex) 애호박 인큐 포장 및 김치 포장재 등"
-                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
+                className="flex-1 border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
@@ -767,7 +767,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                         name="route"
                         value={formData.route}
                         onChange={handleInputChange}
-                        className="flex-4px border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
+                        className="flex-1 border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
                       />
                     </div>
                 </div>

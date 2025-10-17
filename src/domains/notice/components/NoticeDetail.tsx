@@ -248,7 +248,7 @@ export default function NoticeDetail({
               onClick={() => onPrevClick?.(notice.prevNotice!.id)}
             >
               <span className="text-gray-600 mr-[16px]">이전글</span>
-              <span className="flex-[4px]">{notice.prevNotice.title}</span>
+              <span className="flex-1">{notice.prevNotice.title}</span>
             </div>
           )}
           {notice.nextNotice && (
@@ -257,7 +257,7 @@ export default function NoticeDetail({
               onClick={() => onNextClick?.(notice.nextNotice!.id)}
             >
               <span className="text-gray-600 mr-[16px]">다음글</span>
-              <span className="flex-[4px]">{notice.nextNotice.title}</span>
+              <span className="flex-1">{notice.nextNotice.title}</span>
             </div>
           )}
         </div>

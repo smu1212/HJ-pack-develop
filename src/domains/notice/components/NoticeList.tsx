@@ -121,7 +121,7 @@ export default function NoticeList({ onWriteClick, onDetailClick, notices: initi
         </button>
       </div>
 
-      <div className="flex-[4px]">
+      <div className="flex-1">
         {error && (
           <div className="mb-[16px] p-[12px] bg-red-100 text-red-700 rounded">
             {error}
