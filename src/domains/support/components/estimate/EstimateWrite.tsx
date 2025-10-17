@@ -184,18 +184,18 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
 
   return (
     <div className="w-full px-[450px] py-[60px]">
-      <div className="max-w-6xl mx-auto bg-white">
-        <h1 className="text-5xl font-bold text-center mt-18">주문제작 문의</h1>
+      <div className="max-w-[1152px] mx-auto bg-white">
+        <h1 className="text-[48px] font-bold text-center mt-[72px]">주문제작 문의</h1>
 
         {error && (
-          <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className="mt-[16px] p-[16px] bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
           </div>
         )}
 
-        <div className="border-t-3 border-gray-400 pt-8 mt-40">
-          <div className="flex items-center mb-6">
-            <label className="w-20 flex-shrink-0 text-lg">
+        <div className="border-t-[3px] border-gray-400 pt-[32px] mt-[160px]">
+          <div className="flex items-center mb-[24px]">
+            <label className="w-[80px] flex-shrink-0 text-[18px]">
               제목<span className="text-red-500">*</span>
             </label>
             <input
@@ -203,12 +203,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="flex-1 border border-gray-300 border-2 px-4 py-3 text-lg focus:outline-none focus:border-blue-800"
+              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
-          <div className="flex items-center mb-6">
-            <label className="w-20 flex-shrink-0 text-lg">
+          <div className="flex items-center mb-[24px]">
+            <label className="w-[80px] flex-shrink-0 text-[18px]">
               메일<span className="text-red-500">*</span>
             </label>
             <input
@@ -216,12 +216,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="menu"
               value={formData.menu}
               onChange={handleInputChange}
-              className="flex-1 border border-gray-300 border-2 px-4 py-3 text-lg focus:outline-none focus:border-blue-800"
+              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
-          <div className="flex items-center mb-6">
-            <label className="w-20 flex-shrink-0 text-lg">
+          <div className="flex items-center mb-[24px]">
+            <label className="w-[80px] flex-shrink-0 text-[18px]">
               연락처<span className="text-red-500">*</span>
             </label>
             <input
@@ -229,25 +229,25 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="contact"
               value={formData.contact}
               onChange={handleInputChange}
-              className="flex-1 border border-gray-300 border-2 px-4 py-3 text-lg focus:outline-none focus:border-blue-800"
+              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
-          <div className="flex items-center mb-6">
-            <label className="w-20 flex-shrink-0 text-lg">업체명</label>
+          <div className="flex items-center mb-[24px]">
+            <label className="w-[80px] flex-shrink-0 text-[18px]">업체명</label>
             <input
               type="text"
               name="businessType"
               value={formData.businessType}
               onChange={handleInputChange}
               placeholder="(선택)"
-              className="flex-1 border border-gray-300 border-2 px-4 py-3 text-lg focus:outline-none focus:border-blue-800"
+              className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
             />
           </div>
 
-          <div className="flex items-start mb-6 gap-4">
+          <div className="flex items-start mb-[24px] gap-[16px]">
             <div className="flex items-center">
-              <label className="w-20 flex-shrink-0 text-lg">
+              <label className="w-[80px] flex-shrink-0 text-[18px]">
                 이름<span className="text-red-500">*</span>
               </label>
               <input
@@ -255,12 +255,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-[200px] border border-gray-300 border-2 px-4 py-3 text-lg focus:outline-none focus:border-blue-800"
+                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
               />
             </div>
-            <div className="flex-1">
+            <div className="flex-[4px]">
               <div className="flex items-center">
-                <label className="w-22 flex-shrink-0 text-lg ml-8">
+                <label className="w-[88px] flex-shrink-0 text-[18px] ml-[32px]">
                   비밀번호<span className="text-red-500">*</span>
                 </label>
                 <input
@@ -268,24 +268,24 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-[200px] border border-gray-300 border-2 px-4 py-3 text-lg focus:outline-none focus:border-blue-800"
+                  className="w-[200px] border border-gray-300 border-[2px] px-[16px] py-[12px] text-[18px] focus:outline-none focus:border-blue-800"
                 />
-                <p className="text-red-500 mt-1 ml-3">자동 잠금</p>
+                <p className="text-red-500 mt-[4px] ml-[12px]">자동 잠금</p>
               </div>
             </div>
           </div>
 
-          <div className="mb-8">
-            <label className="block mb-3 font-medium text-lg">
+          <div className="mb-[32px]">
+            <label className="block mb-[12px] font-medium text-[18px]">
               상담 방식 동의<span className="text-red-500">*</span>
             </label>
-            <p className="mb-4 text-gray-700 text-lg font-bold">
+            <p className="mb-[16px] text-gray-700 text-[18px] font-bold">
               입력해 주신 연락처로 전화 상담을 드리고 있습니다. 이에 동의하십니까?
             </p>
-            <div className="flex gap-4 mb-4">
+            <div className="flex gap-[16px] mb-[16px]">
               <button
                 onClick={() => handleConsultConsentClick('예')}
-                className={`w-38 h-10 border-2 font-medium ${
+                className={`w-[152px] h-[40px] border-[2px] font-medium ${
                   formData.consultConsent === '예'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
@@ -295,7 +295,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               </button>
               <button
                 onClick={() => handleConsultConsentClick('아니오')}
-                className={`w-38 h-10 border-2 font-medium ${
+                className={`w-[152px] h-[40px] border-[2px] font-medium ${
                   formData.consultConsent === '아니오'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
@@ -305,14 +305,14 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               </button>
             </div>
 
-            <p className="mb-3 text-gray-400 text-base font-bold text-lg">
+            <p className="mb-[12px] text-gray-400 text-base font-bold text-[18px]">
               ※아니오 선택 시 상담 희망 방법 선택
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-[16px]">
               <button
                 onClick={() => handleSingleConsentClick('카카오톡')}
                 disabled={formData.consultConsent === '예'}
-                className={`w-38 h-10 border-2 font-medium ${
+                className={`w-[152px] h-[40px] border-[2px] font-medium ${
                   formData.selectedConsentMethod === '카카오톡'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
@@ -323,7 +323,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               <button
                 onClick={() => handleSingleConsentClick('메일')}
                 disabled={formData.consultConsent === '예'}
-                className={`w-38 h-10 border-2 font-medium ${
+                className={`w-[152px] h-[40px] border-[2px] font-medium ${
                   formData.selectedConsentMethod === '메일'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
@@ -334,7 +334,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               <button
                 onClick={() => handleSingleConsentClick('개시판 답변')}
                 disabled={formData.consultConsent === '예'}
-                className={`w-38 h-10 border-2 font-medium ${
+                className={`w-[152px] h-[40px] border-[2px] font-medium ${
                   formData.selectedConsentMethod === '개시판 답변'
                     ? 'border-blue-800 text-blue-800'
                     : 'border-gray-350 bg-white text-gray-400'
@@ -345,15 +345,15 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             </div>
           </div>
 
-            <div className="mb-8">
-                <label className="block mb-3 font-medium text-lg">
+            <div className="mb-[32px]">
+                <label className="block mb-[12px] font-medium text-[18px]">
                     인쇄방식 선택<span className="text-red-500">*</span>
                 </label>
-                <div className="space-y-4">  
-                    <div className="flex gap-4">
+                <div className="space-y-[16px]">  
+                    <div className="flex gap-[16px]">
                     <button
                         onClick={() => handlePrintMethodClick('그라비아인쇄(대량제작)')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.printMethod === '그라비아인쇄(대량제작)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -363,7 +363,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handlePrintMethodClick('플렉소 인쇄(친환경·소량제작)')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.printMethod === '플렉소 인쇄(친환경·소량제작)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -373,10 +373,10 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     </div>
                     
-                    <div className="flex gap-4">
+                    <div className="flex gap-[16px]">
                     <button
                         onClick={() => handlePrintMethodClick('디지털 인쇄(소량제작)')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.printMethod === '디지털 인쇄(소량제작)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -386,7 +386,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handlePrintMethodClick('기타(상담 후 결정)')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.printMethod === '기타(상담 후 결정)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -398,14 +398,14 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 </div>
             </div>
 
-            <div className="mb-8">
-                <label className="block mb-3 font-medium text-lg">
-                    유통 및 보관 환경<span className="text-red-500">*</span> <span className='text-gray-400 text-sm'>(중복 선택 가능)</span>
+            <div className="mb-[32px]">
+                <label className="block mb-[12px] font-medium text-[18px]">
+                    유통 및 보관 환경<span className="text-red-500">*</span> <span className='text-gray-400 text-[14px]'>(중복 선택 가능)</span>
                 </label>
-                <div className="flex gap-4 mb-4">
+                <div className="flex gap-[16px] mb-[16px]">
                     <button
                         onClick={() => handleStorageEnvironmentClick('냉장보관')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.storageEnvironments.includes('냉장보관')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -415,7 +415,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleStorageEnvironmentClick('냉동보관')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.storageEnvironments.includes('냉동보관')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -425,7 +425,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleStorageEnvironmentClick('실온보관')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.storageEnvironments.includes('실온보관')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -435,7 +435,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleStorageEnvironmentClick('진공포장')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.storageEnvironments.includes('진공포장')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -446,14 +446,14 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 </div>
             </div>
 
-            <div className="mb-8">
-                <label className="block mb-3 font-medium text-lg">
-                    재질 선택<span className="text-red-500">*</span> <span className='text-gray-400 text-sm'>(중복 선택 가능)</span>
+            <div className="mb-[32px]">
+                <label className="block mb-[12px] font-medium text-[18px]">
+                    재질 선택<span className="text-red-500">*</span> <span className='text-gray-400 text-[14px]'>(중복 선택 가능)</span>
                 </label>
-                <div className="flex gap-4 space-y-4">
+                <div className="flex gap-[16px] space-y-[16px]">
                     <button
                         onClick={() => handleMaterialTypeClick('PET_PE')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.materialTypes.includes('PET_PE')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -463,7 +463,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleMaterialTypeClick('NY+PE')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.materialTypes.includes('NY+PE')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -473,7 +473,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleMaterialTypeClick('OPP+CPP')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.materialTypes.includes('OPP+CPP')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -483,10 +483,10 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                   </div>
                     
-                  <div className="flex gap-4">
+                  <div className="flex gap-[16px]">
                     <button
                         onClick={() => handleSingleConsentClick('은박(증착)')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.selectedConsentMethod.includes('은박(증착)')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -497,7 +497,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
 
                     <button
                         onClick={() => handleSingleConsentClick('크라프트지')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.selectedConsentMethod.includes('크라프트지')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -508,7 +508,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
 
                     <button
                         onClick={() => handleSingleConsentClick('친환경 재질(PLA 등)')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.selectedConsentMethod.includes('친환경 재질(PLA 등)')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -519,7 +519,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
 
                     <button
                         onClick={() => handleSingleConsentClick('기타')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                         formData.selectedConsentMethod.includes('기타')
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -530,14 +530,14 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                   </div>
             </div>
 
-            <div className="mb-8">
-                    <label className="block mb-3 font-medium text-lg">
+            <div className="mb-[32px]">
+                    <label className="block mb-[12px] font-medium text-[18px]">
                       후가공 선택<span className="text-red-500">*</span>
                     </label>
-                    <div className="flex gap-4 mb-4">
+                    <div className="flex gap-[16px] mb-[16px]">
                       <button
                         onClick={() => handlePostProcessClick('유광')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                           formData.postProcess === '유광'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -547,7 +547,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                       </button>
                       <button
                         onClick={() => handlePostProcessClick('무광(※디지털 인쇄 불가)')}
-                        className={`w-48 h-10 border-2 font-medium ${
+                        className={`w-[192px] h-[40px] border-[2px] font-medium ${
                           formData.postProcess === '무광(※디지털 인쇄 불가)'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -557,7 +557,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                       </button>
                       <button
                         onClick={() => handlePostProcessClick('후가공 없음')}
-                        className={`w-38 h-10 border-2 font-medium ${
+                        className={`w-[152px] h-[40px] border-[2px] font-medium ${
                           formData.postProcess === '후가공 없음'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -568,15 +568,15 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </div>
                   </div>
 
-                  <div className="mb-8">
-                <label className="block mb-3 font-medium text-lg">
+                  <div className="mb-[32px]">
+                <label className="block mb-[12px] font-medium text-[18px]">
                     디자인 파일 여부<span className="text-red-500">*</span>
                 </label>
-                <div className="space-y-4">  
-                    <div className="flex gap-4">
+                <div className="space-y-[16px]">  
+                    <div className="flex gap-[16px]">
                     <button
                         onClick={() => handleDesignFileClick('일러스트(ai)파일 보유')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.designFileStatus === '일러스트(ai)파일 보유'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -586,7 +586,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleDesignFileClick('디자인 의뢰 예정')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.designFileStatus === '디자인 의뢰 예정'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -596,7 +596,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleDesignFileClick('디자인 의뢰 포함')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.designFileStatus === '디자인 의뢰 포함'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -606,10 +606,10 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     </div>
                     
-                    <div className="flex gap-4">
+                    <div className="flex gap-[16px]">
                     <button
                         onClick={() => handleDesignFileClick('로고/이미지만 보유')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.designFileStatus === '로고/이미지만 보유'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -619,7 +619,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                     </button>
                     <button
                         onClick={() => handleDesignFileClick('참고 시안 있음')}
-                        className={`w-60 h-10 border-2 font-medium ${
+                        className={`w-[240px] h-[40px] border-[2px] font-medium ${
                         formData.designFileStatus === '참고 시안 있음'
                             ? 'border-blue-800 text-blue-800'
                             : 'border-gray-350 bg-white text-gray-400'
@@ -631,13 +631,13 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 </div>
             </div>
 
-            <div className="flex flex-col mt-4 gap-2 mb-12">
-              <div className="flex items-center gap-7">
+            <div className="flex flex-col mt-[16px] gap-[8px] mb-[48px]">
+              <div className="flex items-center gap-[28px]">
                 <input
                   type="text"
-                  className="border-2 w-124 h-7"
+                  className="border-[2px] w-[496px] h-[28px]"
                 />
-                <button className="w-28 h-7 bg-gray-400 text-white hover:bg-gray-300 -ml-3">
+                <button className="w-[112px] h-[28px] bg-gray-400 text-white hover:bg-gray-300 -ml-[12px]">
                   파일 업로드
                 </button>
               </div>
@@ -648,8 +648,8 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               </div>
             </div>  
 
-            <div className="flex items-center mb-6">
-              <label className="w-24 flex-shrink-0 text-lg flex items-center">
+            <div className="flex items-center mb-[24px]">
+              <label className="w-[96px] flex-shrink-0 text-[18px] flex items-center">
                 제작 규격
                 <span className="text-red-500">*</span>
               </label>
@@ -659,12 +659,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.specification}
                 onChange={handleInputChange}
                 placeholder="ex) 170 X 270 mm"
-                className="flex-1 border border-gray-300 border-2 px-4 h-10 text-lg focus:outline-none focus:border-blue-800 placeholder:text-sm"
+                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
-            <div className="flex items-center mb-6">
-              <label className="w-24 flex-shrink-0 text-lg flex items-center">
+            <div className="flex items-center mb-[24px]">
+              <label className="w-[96px] flex-shrink-0 text-[18px] flex items-center">
                 제작 수량<span className="text-red-500">*</span>
               </label>
               <input
@@ -673,12 +673,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.number}
                 onChange={handleInputChange}
                 placeholder="ex) 5,000장, 10,000장, 50,000장 이상 등"
-                className="flex-1 border border-gray-300 border-2 px-4 h-10 text-lg focus:outline-none focus:border-blue-800 placeholder:text-sm"
+                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
-            <div className="flex items-center mb-6">
-              <label className="w-24 flex-shrink-0 text-lg flex items-center">
+            <div className="flex items-center mb-[24px]">
+              <label className="w-[96px] flex-shrink-0 text-[18px] flex items-center">
                 포장 내용물<span className="text-red-500">*</span>
               </label>
               <input
@@ -687,31 +687,31 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 value={formData.content}
                 onChange={handleInputChange}
                 placeholder="ex) 오징어채, 과일젤리, 화장품 샘플 등"
-                className="flex-1 border border-gray-300 border-2 px-4 h-10 text-lg focus:outline-none focus:border-blue-800 placeholder:text-sm"
+                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
-            <div className="flex items-center mb-12">
-              <label className="w-24 flex-shrink-0 text-lg flex items-center">샘플 요청</label>
+            <div className="flex items-center mb-[48px]">
+              <label className="w-[96px] flex-shrink-0 text-[18px] flex items-center">샘플 요청</label>
               <input
                 type="text"
                 name="sample"
                 value={formData.sample}
                 onChange={handleInputChange}
                 placeholder="ex) 애호박 인큐 포장 및 김치 포장재 등"
-                className="flex-1 border border-gray-300 border-2 px-4 h-10 text-lg focus:outline-none focus:border-blue-800 placeholder:text-sm"
+                className="flex-[4px] border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
               />
             </div>
 
             <div className="mb-8">
-                <label className="block mb-3 font-medium text-lg">
-                    유입 경로<span className="text-red-500">*</span> <span className='text-gray-400 text-sm'>(중복 선택 가능)</span>
+                <label className="block mb-[12px] font-medium text-[18px]">
+                    유입 경로<span className="text-red-500">*</span> <span className='text-gray-400 text-[14px]'>(중복 선택 가능)</span>
                 </label>
-                <div className="space-y-4">  
-                    <div className="flex gap-4">
+                <div className="space-y-[16px]">  
+                    <div className="flex gap-[16px]">
                       <button
                           onClick={() => handleInflowRouteClick('기존고객')}
-                          className={`w-30 h-10 border-2 font-medium ${
+                          className={`w-[120px] h-[40px] border-[2px] font-medium ${
                           formData.inflowRoutes.includes('기존고객')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
@@ -721,7 +721,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                       </button>
                       <button
                           onClick={() => handleInflowRouteClick('검색')}
-                          className={`w-30 h-10 border-2 font-medium ${
+                          className={`w-[120px] h-[40px] border-[2px] font-medium ${
                           formData.inflowRoutes.includes('검색')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
@@ -731,7 +731,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                       </button>
                       <button
                           onClick={() => handleInflowRouteClick('SNS/블로그')}
-                          className={`w-30 h-10 border-2 font-medium ${
+                          className={`w-[120px] h-[40px] border-[2px] font-medium ${
                           formData.inflowRoutes.includes('SNS/블로그')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
@@ -741,7 +741,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                       </button>
                       <button
                           onClick={() => handleInflowRouteClick('소개/지인')}
-                          className={`w-30 h-10 border-2 font-medium ${
+                          className={`w-[120px] h-[40px] border-[2px] font-medium ${
                           formData.inflowRoutes.includes('소개/지인')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
@@ -751,7 +751,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                       </button>
                       <button
                           onClick={() => handleInflowRouteClick('기타(직접입력)')}
-                          className={`w-30 h-10 border-2 font-medium ${
+                          className={`w-[120px] h-[40px] border-[2px] font-medium ${
                           formData.inflowRoutes.includes('기타(직접입력)')
                               ? 'border-blue-800 text-blue-800'
                               : 'border-gray-350 bg-white text-gray-400'
@@ -767,21 +767,21 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                         name="route"
                         value={formData.route}
                         onChange={handleInputChange}
-                        className="flex-1 border border-gray-300 border-2 px-4 h-10 text-lg focus:outline-none focus:border-blue-800 placeholder:text-sm"
+                        className="flex-4px border border-gray-300 border-[2px] px-[16px] h-[40px] text-[18px] focus:outline-none focus:border-blue-800 placeholder:text-[14px]"
                       />
                     </div>
                 </div>
             </div>
 
-            <div className="mb-8">
-              <label className="block mb-2 font-medium text-lg">
+            <div className="mb-[32px]">
+              <label className="block mb-[8px] font-medium text-[18px]">
                 개인정보 수집 동의<span className="text-red-500">*</span>
               </label>
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-[8px]">
                 <input
                   type="checkbox"
                   id="privacy"
-                  className="w-5 h-5 border-2 border-gray-400 appearance-none checked:bg-blue-800 checked:border-blue-800"
+                  className="w-[20px] h-[20px] border-[2px] border-gray-400 appearance-none checked:bg-blue-800 checked:border-blue-800"
                 />
                 <label htmlFor="privacy" className="text-gray-700">
                   (서비스 이용을 위한 필수 항목) 정보수집 및 이용에 동의합니다.
@@ -789,11 +789,11 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               </div>
             </div>
 
-            <div className="flex justify-end border-t border-gray-300 pt-4 mt-6">
+            <div className="flex justify-end border-t border-gray-300 pt-[16px] mt-[24px]">
               <button 
                 onClick={handleSubmit}
                 disabled={isLoading}
-                className="px-16 py-2 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-[64px] py-[8px] bg-blue-100 border-[2px] border-blue-800 text-blue-800 font-medium hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? '접수 중...' : '등 록'}
               </button>

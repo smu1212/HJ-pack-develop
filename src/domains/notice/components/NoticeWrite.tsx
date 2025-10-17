@@ -65,12 +65,12 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
 
   return (
     <div className="w-full px-[450px] py-[60px]">
-      <h1 className="text-5xl font-bold text-center mt-18">공지사항</h1>
+      <h1 className="text-[48px] font-bold text-center mt-[72px]">공지사항</h1>
 
-      <div className="border-t-3 border-gray-300 mt-40" />
+      <div className="border-t-[3px] border-gray-300 mt-[160px]" />
 
       {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+        <div className="mb-[16px] p-[12px] bg-red-100 text-red-700 rounded">
           {error}
         </div>
       )}
@@ -80,34 +80,34 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
         placeholder="제목"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full text-lg py-2 mt-1 mb-1 focus:outline-none ml-4"
+        className="w-full text-[18px] py-[8px] mt-[4px] mb-[4px] focus:outline-none ml-[16px]"
         disabled={loading}
       />
 
-      <hr className="border-1 border-gray-200" />
+      <hr className="border-[1px] border-gray-200" />
 
       <textarea
         placeholder="내용"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        className="w-full h-140 p-4 mt-3 mb-6 text-lg resize-none focus:outline-none"
+        className="w-full h-[560px] p-[16px] mt-[12px] mb-[24px] text-[18px] resize-none focus:outline-none"
         disabled={loading}
       />
 
-      <hr className="border-1 border-gray-200 mb-4" />
+      <hr className="border-[1px] border-gray-200 mb-[16px]" />
 
-      <div className="flex items-center w-full justify-between mb-40">
-        <div className="flex gap-2 mr-2 ml-auto">
+      <div className="flex items-center w-full justify-between mb-[160px]">
+        <div className="flex gap-[8px] mr-[8px] ml-auto">
           <button
             onClick={handleDelete}
-            className="w-24 h-8 border-2 border-gray-300 text-gray-400 hover:bg-gray-100 disabled:opacity-50"
+            className="w-[96px] h-[32px] border-[2px] border-gray-300 text-gray-400 hover:bg-gray-100 disabled:opacity-50"
             disabled={loading}
           >
             삭 제
           </button>
           <button
             onClick={handleSubmit}
-            className="w-24 h-8 bg-blue-100 border-2 border-blue-800 text-blue-800 font-medium hover:bg-blue-300 disabled:opacity-50"
+            className="w-[96px] h-[32px] bg-blue-100 border-[2px] border-blue-800 text-blue-800 font-medium hover:bg-blue-300 disabled:opacity-50"
             disabled={loading}
           >
             {loading ? '저장 중...' : '글쓰기'}
