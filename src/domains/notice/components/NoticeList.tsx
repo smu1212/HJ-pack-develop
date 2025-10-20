@@ -1,88 +1,35 @@
-// 문의 목록
-
 'use client';
 
-import { useState, useEffect } from 'react';
-
-interface Notice {
-  id: number;
-  title: string;
-  createdAt: string;
-}
-
-interface ApiResponse {
-  list: Notice[];
-  pageCount: number;
-  total: number;
-}
+import { useEffect } from 'react';
+import { useNoticeStore } from '@domains/notice/store/NoticeStore';
 
 interface NoticeListProps {
   onWriteClick?: () => void;
   onDetailClick?: (id: number) => void;
-  notices?: any[];
 }
 
-export default function NoticeList({ onWriteClick, onDetailClick, notices: initialNotices }: NoticeListProps) {
-  const [activeTab, setActiveTab] = useState<'notice' | 'report'>('notice');
-  const [searchType, setSearchType] = useState<'title' | 'content' | 'author'>('title');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [notices, setNotices] = useState<Notice[]>([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListProps) {
+  const {
+    activeTab,
+    searchType,
+    searchQuery,
+    currentPage,
+    notices,
+    total,
+    loading,
+    error,
+    setActiveTab,
+    setSearchType,
+    setSearchQuery,
+    fetchNotices,
+    handleSearch,
+  } = useNoticeStore();
+
   const itemsPerPage = 10;
-
-  const fetchNotices = async (page: number = 1) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({
-        page: page.toString(),
-        take: '10',
-        sort: 'latest',
-      });
-
-      if (searchQuery) {
-        if (searchType === 'title') {
-          params.append('title', searchQuery);
-        } else if (searchType === 'content') {
-          params.append('content', searchQuery);
-        } else if (searchType === 'author') {
-          params.append('author', searchQuery);
-        }
-      }
-
-      const response = await fetch(
-        `https://api.dev.hj-pack.eoe.sh/notice?${params.toString()}`
-      );
-
-      if (!response.ok) {
-        throw new Error('공지사항을 불러오지 못했습니다.');
-      }
-
-      const data: ApiResponse = await response.json();
-      setNotices(data.list);
-      setTotal(data.total);
-      setCurrentPage(page);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
-      if (initialNotices && initialNotices.length > 0) {
-        setNotices(initialNotices);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchNotices(1);
-  }, []);
-
-  const handleSearch = () => {
-    setCurrentPage(1);
-    fetchNotices(1);
-  };
+  }, [fetchNotices]);
 
   const handlePageChange = (page: number) => {
     fetchNotices(page);

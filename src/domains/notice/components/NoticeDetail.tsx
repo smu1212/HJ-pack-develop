@@ -1,30 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@store/global/authStore';
-
-interface Image {
-  id: number;
-  url: string;
-  createdAt: string;
-}
-
-interface RelatedNotice {
-  id: number;
-  title: string;
-}
-
-interface NoticeDetail {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  images: Image[];
-  prevNotice: RelatedNotice | null;
-  nextNotice: RelatedNotice | null;
-}
+import { useNoticeStore } from '@domains/notice/store/NoticeStore';
 
 interface NoticeDetailProps {
   noticeId: number;
@@ -42,18 +21,26 @@ export default function NoticeDetail({
   onAuthRequired
 }: NoticeDetailProps) {
   const searchParams = useSearchParams();
-  const [notice, setNotice] = useState<NoticeDetail | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState('');
-  const [editContent, setEditContent] = useState('');
-
   const accessToken = useAuthStore((s) => s.accessToken);
 
+  const {
+    detail: notice,
+    detailLoading: loading,
+    detailError: error,
+    isEditing,
+    editTitle,
+    editContent,
+    setIsEditing,
+    setEditTitle,
+    setEditContent,
+    fetchNoticeDetail,
+    updateNotice,
+    deleteNotice,
+  } = useNoticeStore();
+
   useEffect(() => {
-    fetchNoticeDetail();
-  }, [noticeId]);
+    fetchNoticeDetail(noticeId);
+  }, [noticeId, fetchNoticeDetail]);
 
   useEffect(() => {
     if (searchParams.get('edit') === 'true' && accessToken) {
@@ -61,36 +48,13 @@ export default function NoticeDetail({
     } else {
       setIsEditing(false);
     }
-  }, [accessToken, searchParams]);
+  }, [accessToken, searchParams, setIsEditing]);
 
   useEffect(() => {
     if (!searchParams.get('edit') && isEditing) {
       setIsEditing(false);
     }
-  }, [searchParams]);
-
-  const fetchNoticeDetail = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        `https://api.dev.hj-pack.eoe.sh/notice/${noticeId}`
-      );
-
-      if (!response.ok) {
-        throw new Error('공지사항을 불러오지 못했습니다.');
-      }
-
-      const data: NoticeDetail = await response.json();
-      setNotice(data);
-      setEditTitle(data.title);
-      setEditContent(data.content);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [searchParams, isEditing, setIsEditing]);
 
   const handleEditClick = () => {
     if (!accessToken) {
@@ -109,57 +73,22 @@ export default function NoticeDetail({
   };
 
   const handleUpdateNotice = async () => {
-    if (!notice) return;
+    if (!notice || !accessToken) return;
 
-    const formData = new FormData();
-    formData.append('title', editTitle);
-    formData.append('content', editContent);
-    formData.append('removeImage', 'true');
-
-    try {
-      const response = await fetch(`https://api.dev.hj-pack.eoe.sh/notice/${notice.id}`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('공지사항 수정에 실패했습니다.');
-      }
-
-      const updated = await response.json();
-      console.log('수정된 공지사항:', updated);
-
-      await fetchNoticeDetail();
-      setIsEditing(false);
+    const success = await updateNotice(notice.id, accessToken);
+    if (success) {
       alert('공지사항이 수정되었습니다.');
-    } catch (err) {
-      alert(err instanceof Error ? err.message : '수정 중 오류가 발생했습니다.');
     }
   };
 
   const handleDeleteNotice = async () => {
-    if (!notice) return;
+    if (!notice || !accessToken) return;
     if (!confirm('정말로 이 공지사항을 삭제하시겠습니까?')) return;
 
-    try {
-      const response = await fetch(`https://api.dev.hj-pack.eoe.sh/notice/${notice.id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('공지사항 삭제에 실패했습니다.');
-      }
-
+    const success = await deleteNotice(notice.id, accessToken);
+    if (success) {
       alert('공지사항이 삭제되었습니다.');
-      onBackClick?.(); 
-    } catch (err) {
-      alert(err instanceof Error ? err.message : '삭제 중 오류가 발생했습니다.');
+      onBackClick?.();
     }
   };
 

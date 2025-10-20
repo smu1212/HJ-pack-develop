@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuthStore } from '@store/global/authStore';
 import { useModalStore } from '@store/global/modal.store';
-import * as crypto from 'crypto';
+import { useNoticeStore } from '@domains/notice/store/NoticeStore';
 
 interface PasswordFormProps {
   onSuccess?: () => void;
@@ -11,10 +11,15 @@ interface PasswordFormProps {
 }
 
 export default function PasswordForm({ onSuccess }: PasswordFormProps) {
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const {
+    password,
+    passwordLoading: loading,
+    passwordError: error,
+    showPassword,
+    setPassword,
+    setShowPassword,
+    submitPassword,
+  } = useNoticeStore();
 
   const accessToken = useAuthStore((s) => s.accessToken);
   const setToken = useAuthStore((s) => s.setToken);
@@ -27,45 +32,12 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
     }
   }, [accessToken, closeModal, onSuccess]);
 
-  const sha256Hex = (str: string): string => {
-    return crypto.createHash('sha256').update(str).digest('hex');
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!password.trim()) {
-      setError('비밀번호를 입력해주세요.');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const hashed = sha256Hex(password);
-
-      const response = await fetch('https://api.dev.hj-pack.eoe.sh/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: hashed }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData?.message || '로그인에 실패하였습니다.');
-      }
-
-      const data = await response.json();
-
-      setToken(data.accessToken);
-      setPassword('');
+    const success = await submitPassword(setToken);
+    if (success) {
       onSuccess?.();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
-      console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 

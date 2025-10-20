@@ -1,66 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useNoticeStore } from '@domains/notice/store/NoticeStore';
 
 interface NoticeWriteProps {
   onBackClick?: () => void;
   onAddNotice?: (notice: { title: string; content: string }) => void;
-  accessToken?: string | null; // ✅ accessToken 추가
+  accessToken?: string | null;
 }
 
 export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: NoticeWriteProps) {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const getAccessToken = () => accessToken;
+  const {
+    writeTitle: title,
+    writeContent: content,
+    writeLoading: loading,
+    writeError: error,
+    setWriteTitle,
+    setWriteContent,
+    createNotice,
+    clearWriteForm,
+  } = useNoticeStore();
 
   const handleSubmit = async () => {
-    if (!title.trim() || !content.trim()) {
-      alert('제목과 내용을 입력해주세요.');
+    if (!accessToken) {
+      alert('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
       return;
     }
 
-    setLoading(true);
-    setError(null);
-
-    try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('content', content);
-
-      const token = getAccessToken();
-      if (!token) throw new Error('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
-
-      const response = await fetch('https://api.dev.hj-pack.eoe.sh/notice', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData?.message || '공지사항 생성에 실패했습니다.');
-      }
-
-      const data = await response.json();
-      onAddNotice?.(data);
-      handleDelete();
+    const success = await createNotice(accessToken);
+    if (success) {
+      onAddNotice?.({ title, content });
       onBackClick?.();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '오류가 발생했습니다.');
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleDelete = () => {
-    setTitle('');
-    setContent('');
-    setError(null);
+    clearWriteForm();
   };
 
   return (
@@ -79,7 +53,7 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
         type="text"
         placeholder="제목"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => setWriteTitle(e.target.value)}
         className="w-full text-[18px] py-[8px] mt-[4px] mb-[4px] focus:outline-none ml-[16px]"
         disabled={loading}
       />
@@ -89,7 +63,7 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
       <textarea
         placeholder="내용"
         value={content}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={(e) => setWriteContent(e.target.value)}
         className="w-full h-[560px] p-[16px] mt-[12px] mb-[24px] text-[18px] resize-none focus:outline-none"
         disabled={loading}
       />
