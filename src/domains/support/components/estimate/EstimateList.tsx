@@ -1,13 +1,23 @@
-'use client';
+"use client";
 
 import { useEstimateStore } from '@domains/support/store/EstimateStore';
 
-export default function EstimateList({ onButtonClick }: { onButtonClick?: () => void }) {
-  const { inquiries, searchType, setSearchType, searchText, setSearchText } = useEstimateStore();
+interface EstimateListProps {
+  onButtonClick?: () => void;
+}
+
+export default function EstimateList({ onButtonClick }: EstimateListProps) {
+  const {
+    inquiries,
+    searchType,
+    setSearchType,
+    searchText,
+    setSearchText,
+  } = useEstimateStore();
 
   const handleSearch = () => {
-    console.log('검색:', searchType, searchText);
-    // 필요시 실제 필터링 로직 추가 가능
+    console.log("검색:", searchType, searchText);
+    // 실제 검색 로직은 추후 구현 가능
   };
 
   return (
@@ -28,7 +38,7 @@ export default function EstimateList({ onButtonClick }: { onButtonClick?: () => 
           <thead>
             <tr className="border-b border-gray-300 bg-[#ededed]">
               <th className="py-[8px] w-[60px]">번호</th>
-              <th className="py-[8px]"></th>
+              <th className="py-[8px]">제목</th>
               <th className="py-[8px] w-[120px]">이름</th>
               <th className="py-[8px] w-[120px]">날짜</th>
               <th className="py-[8px] w-[90px]">조회</th>
@@ -47,46 +57,44 @@ export default function EstimateList({ onButtonClick }: { onButtonClick?: () => 
           </tbody>
         </table>
 
+        {/* 검색 영역 */}
         <div className="flex items-center gap-[28px] text-[16px] mt-[16px]">
           <div className="flex gap-[28px]">
             <label className="flex items-center gap-[4px]">
               <input
                 type="radio"
                 name="searchType"
-                checked={searchType === '이름'}
-                onChange={() => setSearchType('이름')}
-              />
-              이름
+                checked={searchType === "이름"}
+                onChange={() => setSearchType("이름")}
+              /> 이름
             </label>
             <label className="flex items-center gap-[4px]">
               <input
                 type="radio"
                 name="searchType"
-                checked={searchType === '제목'}
-                onChange={() => setSearchType('제목')}
-              />
-              제목
+                checked={searchType === "제목"}
+                onChange={() => setSearchType("제목")}
+              /> 제목
             </label>
             <label className="flex items-center gap-[4px]">
               <input
                 type="radio"
                 name="searchType"
-                checked={searchType === '내용'}
-                onChange={() => setSearchType('내용')}
-              />
-              내용
+                checked={searchType === "내용"}
+                onChange={() => setSearchType("내용")}
+              /> 내용
             </label>
           </div>
 
           <input
             type="text"
-            className="border w-[140px]"
+            className="border w-[140px] px-[4px]"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
           <button
-            className="border px-[8x] text-gray-500 hover:bg-gray-300 -ml-[24px]"
             onClick={handleSearch}
+            className="border px-[8px] text-gray-500 hover:bg-gray-300 -ml-[24px]"
           >
             검색
           </button>
