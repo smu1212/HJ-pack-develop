@@ -1,42 +1,27 @@
-// 주문제작문의 버튼 및 문의 목록 띄우는 컴포넌트
+'use client';
 
-"use client";
+import { useEstimateStore } from '@domains/support/store/EstimateStore';
 
-import Link from 'next/link';
-import { useState } from "react";
-interface EstimateListProps {
-  inquiries: InquiryData[];
-  onButtonClick?: () => void;
-}
-
-export interface InquiryData {
-  id: number;
-  title: string;
-  name: string;
-  date: string;
-  views: number;
-}
-
-export default function EstimateList({ inquiries, onButtonClick }: EstimateListProps) {
-  const [searchType, setSearchType] = useState("이름");
-  const [searchText, setSearchText] = useState("");
+export default function EstimateList({ onButtonClick }: { onButtonClick?: () => void }) {
+  const { inquiries, searchType, setSearchType, searchText, setSearchText } = useEstimateStore();
 
   const handleSearch = () => {
-    console.log("검색:", searchType, searchText);
+    console.log('검색:', searchType, searchText);
+    // 필요시 실제 필터링 로직 추가 가능
   };
 
   return (
     <section className="px-[450px] py-[60px]">
       <h1 className="text-[48px] font-bold text-center mt-[72px]">주문제작 문의</h1>
 
-         <div className="text-center mt-40 mb-26">
-            <button 
-            onClick={onButtonClick}
-            className="bg-red-200 text-[24px] w-[280px] h-[60px] rounded-full text-black hover:bg-red-300 font-medium"
-            >
-            주문제작 견적문의
-            </button>
-        </div>
+      <div className="text-center mt-40 mb-26">
+        <button
+          onClick={onButtonClick}
+          className="bg-red-200 text-[24px] w-[280px] h-[60px] rounded-full text-black hover:bg-red-300 font-medium"
+        >
+          주문제작 견적문의
+        </button>
+      </div>
 
       <div className="flex-1">
         <table className="w-[100%] border-t border-gray-400 text-center">
@@ -65,25 +50,49 @@ export default function EstimateList({ inquiries, onButtonClick }: EstimateListP
         <div className="flex items-center gap-[28px] text-[16px] mt-[16px]">
           <div className="flex gap-[28px]">
             <label className="flex items-center gap-[4px]">
-              <input type="radio" name="searchType" defaultChecked /> 이름
+              <input
+                type="radio"
+                name="searchType"
+                checked={searchType === '이름'}
+                onChange={() => setSearchType('이름')}
+              />
+              이름
             </label>
             <label className="flex items-center gap-[4px]">
-              <input type="radio" name="searchType" /> 제목
+              <input
+                type="radio"
+                name="searchType"
+                checked={searchType === '제목'}
+                onChange={() => setSearchType('제목')}
+              />
+              제목
             </label>
             <label className="flex items-center gap-[4px]">
-              <input type="radio" name="searchType" /> 내용
+              <input
+                type="radio"
+                name="searchType"
+                checked={searchType === '내용'}
+                onChange={() => setSearchType('내용')}
+              />
+              내용
             </label>
           </div>
 
           <input
             type="text"
             className="border w-[140px]"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
-          <button className="border px-[8x] text-gray-500 hover:bg-gray-300 -ml-[24px]">
+          <button
+            className="border px-[8x] text-gray-500 hover:bg-gray-300 -ml-[24px]"
+            onClick={handleSearch}
+          >
             검색
           </button>
         </div>
 
+        {/* 페이지네이션 */}
         <div className="flex justify-center mt-[80px] mb-[112px] space-x-[8px] text-gray-400">
           <button className="w-[32px] h-[32px] border border-gray-300 rounded-full hover:bg-gray-100">{'<<'}</button>
           <button className="w-[32px] h-[32px] border border-gray-300 rounded-full hover:bg-gray-100">{'<'}</button>

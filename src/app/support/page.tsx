@@ -1,5 +1,3 @@
-// support 페이지
-
 'use client';
 
 import Footer from '@comp/Footer';
@@ -7,59 +5,31 @@ import Header from '@comp/Header';
 import EstimateList from '@domains/support/components/estimate/EstimateList';
 import EstimateWrite from '@domains/support/components/estimate/EstimateWrite';
 import EstimateDetail from '@domains/support/components/estimate/EstimateDetail';
-
-import { useState, useEffect } from 'react';
-
-export interface InquiryData {
-  id: number;
-  title: string;
-  name: string;
-  date: string;
-  views: number;
-}
-
-export interface InquiryDetailData {
-  title: string;
-  name: string;
-  specification: string;
-  number: string;
-  content: string;
-  date?: string;
-}
+import { useEffect } from 'react';
+import { useEstimateStore } from '@domains/support/store/EstimateStore';
 
 export default function Page() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [inquiries, setInquiries] = useState<InquiryData[]>([
-    { id: 10, title: "주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 9, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 7, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 6, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 5, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 4, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 3, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 2, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-    { id: 1, title: "[답변완료] 주문제작 견적 문의드립니다.", name: "홍길동", date: "2025/08/26", views: 0 },
-  ]);
+  // Zustand store에서 값과 함수 가져오기
+  const {
+    currentStep,
+    setCurrentStep,
+    inquiries,
+    selectedInquiry,
+    addInquiry
+  } = useEstimateStore();
 
-  const [selectedInquiry, setSelectedInquiry] = useState<InquiryDetailData | null>(null);
-
-  const handleAddInquiry = (inquiryData: InquiryDetailData) => {
-    const today = new Date();
-    const dateStr = `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}`;
-    const newId = inquiries.length > 0 ? Math.max(...inquiries.map(i => i.id)) + 1 : 1;
-
-    const newInquiry: InquiryData = {
-      id: newId,
-      title: inquiryData.title,
-      name: inquiryData.name,
-      date: dateStr,
-      views: 0,
-    };
-
-    setInquiries([newInquiry, ...inquiries]);
-    setSelectedInquiry({ ...inquiryData, date: dateStr });
+  // 페이지 이동 함수
+  const changeStep = (step: number) => {
+    setCurrentStep(step);
+    if (step === 2) {
+      localStorage.setItem('currentStep', '2');
+    } else {
+      localStorage.setItem('currentStep', '1');
+    }
+    window.history.pushState({ step }, '');
   };
 
+  // 새로고침 및 뒤로가기 처리
   useEffect(() => {
     const navigationEntries = performance.getEntriesByType("navigation");
     const isReload =
@@ -80,8 +50,7 @@ export default function Page() {
       const state = event.state;
       if (state && state.step) {
         setCurrentStep(state.step);
-        if (state.step === 2) localStorage.setItem('currentStep', '2');
-        else localStorage.setItem('currentStep', '1');
+        localStorage.setItem('currentStep', state.step.toString());
       } else {
         setCurrentStep(1);
         localStorage.setItem('currentStep', '1');
@@ -89,54 +58,27 @@ export default function Page() {
     };
 
     window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [setCurrentStep]);
 
-
-  const changeStep = (step: number) => {
-    setCurrentStep(step);
-    if (step === 2) {
-      localStorage.setItem('currentStep', '2');
-    } else {
-      localStorage.setItem('currentStep', '1');
-    }
-    window.history.pushState({ step }, '');
-  };
-
+  // 현재 스텝에 따라 렌더링
   const renderContent = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <EstimateList
-            inquiries={inquiries}
-            onButtonClick={() => changeStep(2)}
-          />
-        );
+        return <EstimateList onButtonClick={() => changeStep(2)} />
       case 2:
         return (
           <EstimateWrite
             onSubmit={(inquiryData) => {
-              handleAddInquiry(inquiryData);
+              addInquiry(inquiryData); // Zustand 사용
               changeStep(1);
             }}
           />
         );
       case 3:
-        return (
-          <EstimateDetail
-            inquiryData={selectedInquiry}
-            onBack={() => changeStep(1)}
-          />
-        );
+        return <EstimateDetail onBack={() => changeStep(1)} />
       default:
-        return (
-          <EstimateList
-            inquiries={inquiries}
-            onButtonClick={() => changeStep(2)}
-          />
-        );
+        return <EstimateList onButtonClick={() => changeStep(2)} />
     }
   };
 

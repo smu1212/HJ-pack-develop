@@ -29,7 +29,6 @@ interface NoticeDetail {
 }
 
 interface NoticeState {
-  // 목록 상태
   activeTab: 'notice' | 'report';
   searchType: 'title' | 'content' | 'author';
   searchQuery: string;
@@ -39,7 +38,6 @@ interface NoticeState {
   loading: boolean;
   error: string | null;
   
-  // 상세 상태
   detail: NoticeDetail | null;
   detailLoading: boolean;
   detailError: string | null;
@@ -47,19 +45,16 @@ interface NoticeState {
   editTitle: string;
   editContent: string;
   
-  // 작성 상태
   writeTitle: string;
   writeContent: string;
   writeLoading: boolean;
   writeError: string | null;
   
-  // 비밀번호 폼 상태
   password: string;
   passwordLoading: boolean;
   passwordError: string | null;
   showPassword: boolean;
   
-  // 목록 액션
   setActiveTab: (tab: 'notice' | 'report') => void;
   setSearchType: (type: 'title' | 'content' | 'author') => void;
   setSearchQuery: (query: string) => void;
@@ -71,7 +66,6 @@ interface NoticeState {
   fetchNotices: (page?: number) => Promise<void>;
   handleSearch: () => void;
   
-  // 상세 액션
   setDetail: (detail: NoticeDetail | null) => void;
   setDetailLoading: (loading: boolean) => void;
   setDetailError: (error: string | null) => void;
@@ -82,7 +76,6 @@ interface NoticeState {
   updateNotice: (id: number, accessToken: string) => Promise<boolean>;
   deleteNotice: (id: number, accessToken: string) => Promise<boolean>;
   
-  // 작성 액션
   setWriteTitle: (title: string) => void;
   setWriteContent: (content: string) => void;
   setWriteLoading: (loading: boolean) => void;
@@ -90,7 +83,6 @@ interface NoticeState {
   createNotice: (accessToken: string) => Promise<boolean>;
   clearWriteForm: () => void;
   
-  // 비밀번호 폼 액션
   setPassword: (password: string) => void;
   setPasswordLoading: (loading: boolean) => void;
   setPasswordError: (error: string | null) => void;
@@ -103,7 +95,6 @@ interface NoticeState {
 }
 
 const initialState = {
-  // 목록
   activeTab: 'notice' as const,
   searchType: 'title' as const,
   searchQuery: '',
@@ -112,19 +103,16 @@ const initialState = {
   total: 0,
   loading: false,
   error: null,
-  // 상세
   detail: null,
   detailLoading: false,
   detailError: null,
   isEditing: false,
   editTitle: '',
   editContent: '',
-  // 작성
   writeTitle: '',
   writeContent: '',
   writeLoading: false,
   writeError: null,
-  // 비밀번호
   password: '',
   passwordLoading: false,
   passwordError: null,
@@ -134,7 +122,6 @@ const initialState = {
 export const useNoticeStore = create<NoticeState>((set, get) => ({
   ...initialState,
 
-  // 목록 액션
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSearchType: (type) => set({ searchType: type }),
   setSearchQuery: (query) => set({ searchQuery: query }),
@@ -195,7 +182,6 @@ export const useNoticeStore = create<NoticeState>((set, get) => ({
     fetchNotices(1);
   },
 
-  // 상세 액션
   setDetail: (detail) => set({ detail }),
   setDetailLoading: (loading) => set({ detailLoading: loading }),
   setDetailError: (error) => set({ detailError: error }),
@@ -280,7 +266,6 @@ export const useNoticeStore = create<NoticeState>((set, get) => ({
     }
   },
 
-  // 작성 액션
   setWriteTitle: (title) => set({ writeTitle: title }),
   setWriteContent: (content) => set({ writeContent: content }),
   setWriteLoading: (loading) => set({ writeLoading: loading }),
@@ -332,7 +317,6 @@ export const useNoticeStore = create<NoticeState>((set, get) => ({
     writeError: null,
   }),
 
-  // 비밀번호 폼 액션
   setPassword: (password) => set({ password }),
   setPasswordLoading: (loading) => set({ passwordLoading: loading }),
   setPasswordError: (error) => set({ passwordError: error }),
