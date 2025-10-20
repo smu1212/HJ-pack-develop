@@ -19,7 +19,7 @@ export interface InquiryDetailData {
   date?: string;
 }
 
-export interface FormData {
+interface FormData {
   title: string;
   menu: string;
   contact: string;
@@ -43,30 +43,24 @@ export interface FormData {
 }
 
 interface EstimateStore {
-  // 페이지 상태
   currentStep: number;
   setCurrentStep: (step: number) => void;
 
-  // 문의 목록
   inquiries: InquiryData[];
   addInquiry: (inquiry: InquiryDetailData) => void;
   
-  // 선택된 문의
   selectedInquiry: InquiryDetailData | null;
   setSelectedInquiry: (inquiry: InquiryDetailData | null) => void;
 
-  // 검색 상태 (EstimateList)
   searchType: string;
   setSearchType: (type: string) => void;
   searchText: string;
   setSearchText: (text: string) => void;
 
-  // 폼 데이터 (EstimateWrite)
   formData: FormData;
   setFormData: (data: Partial<FormData>) => void;
   resetFormData: () => void;
 
-  // EstimateDetail 상태
   inquiryContent: string;
   setInquiryContent: (content: string) => void;
   answer: string;

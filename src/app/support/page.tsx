@@ -18,7 +18,6 @@ export default function Page() {
     setSelectedInquiry,
   } = useEstimateStore();
 
-  // 🔹 브라우저 새로고침 시 step 유지 처리
   useEffect(() => {
     const navigationEntries = performance.getEntriesByType("navigation");
     const isReload =
@@ -52,14 +51,12 @@ export default function Page() {
     };
   }, [setCurrentStep]);
 
-  // 🔹 페이지 전환 핸들러
   const changeStep = (step: number) => {
     setCurrentStep(step);
     localStorage.setItem('currentStep', String(step));
     window.history.pushState({ step }, '');
   };
 
-  // 🔹 화면 렌더링
   const renderContent = () => {
     switch (currentStep) {
       case 1:
@@ -70,7 +67,7 @@ export default function Page() {
         return (
           <EstimateWrite
             onSubmit={(inquiryData) => {
-              addInquiry(inquiryData); // Zustand store 이용
+              addInquiry(inquiryData);
               changeStep(1);
             }}
           />

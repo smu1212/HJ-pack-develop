@@ -13,6 +13,46 @@ interface NoticeDetailProps {
   onAuthRequired?: () => void;
 }
 
+const styles = {
+  container: 'w-full px-[450px] py-[60px]',
+  title: 'text-[48px] font-bold text-center mt-[72px]',
+  border: {
+    primary: 'border-[#929292]',
+    top: 'border-t',
+    bottom: 'border-b',
+    divider: 'border-t-[2px] border-[#929292]',
+  },
+  input: {
+    base: 'w-full border border-[#929292] rounded p-[8px]',
+    title: 'text-[24px] font-bold mb-[16px]',
+    textarea: 'p-[12px] h-[256px] text-[18px] leading-relaxed',
+  },
+  navigation: {
+    item: 'flex items-center py-[12px] hover:bg-gray-10 cursor-pointer',
+    label: 'text-gray-600 mr-[16px]',
+    content: 'flex-1',
+  },
+  button: {
+    base: 'px-[24px] py-[8px] font-medium',
+    primary: 'bg-blue-400 text-white hover:bg-blue-600',
+    success: 'bg-blue-500 text-white hover:bg-blue-600',
+    danger: 'bg-red-400 text-white hover:bg-red-600',
+    secondary: 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+  },
+  spacing: {
+    mt32: 'mt-[32px]',
+    mb32: 'mb-[32px]',
+    mt48: 'mt-[48px]',
+    mb112: 'mb-[112px]',
+    mt160: 'mt-[160px]',
+  },
+  text: {
+    content: 'text-[18px] leading-relaxed',
+    subtitle: 'text-[20px] font-bold mb-[16px]',
+    detailTitle: 'text-[30px] font-bold mb-[16px]',
+  },
+};
+
 export default function NoticeDetail({ 
   noticeId, 
   onBackClick, 
@@ -99,7 +139,7 @@ export default function NoticeDetail({
 
   if (loading) {
     return (
-      <div className="w-full px-[450px] py-[60px]">
+      <div className={styles.container}>
         <div className="text-center py-8">로딩 중...</div>
       </div>
     );
@@ -107,13 +147,13 @@ export default function NoticeDetail({
 
   if (error || !notice) {
     return (
-      <div className="w-full px-[450px] py-[60px]">
+      <div className={styles.container}>
         <div className="text-center py-8 text-red-600">
           {error || '공지사항을 불러올 수 없습니다.'}
         </div>
         <button
           onClick={onBackClick}
-          className="mt-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+          className={`mt-4 px-4 py-2 ${styles.button.secondary}`}
         >
           목록으로 돌아가기
         </button>
@@ -122,47 +162,47 @@ export default function NoticeDetail({
   }
 
   return (
-    <div className="w-full px-[450px] py-[60px]">
-      <h1 className="text-[48px] font-bold text-center mt-[72px]">공지사항</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>공지사항</h1>
 
-      <div className="border-t-[2px] border-gray-300 mt-[160px]" />
+      <div className={`${styles.border.divider} ${styles.spacing.mt160}`} />
 
-      <div className="mt-[32px]">
+      <div className={styles.spacing.mt32}>
         {isEditing ? (
           <>
             <input
               type="text"
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
-              className="w-full border border-gray-300 rounded p-[8px] text-[24px] font-bold mb-[16px]"
+              className={`${styles.input.base} ${styles.input.title}`}
             />
             <textarea
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
-              className="w-full border border-gray-300 rounded p-[12px] h-[256px] text-[18px] leading-relaxed"
+              className={`${styles.input.base} ${styles.input.textarea}`}
             />
           </>
         ) : (
           <>
-            <h2 className="text-[30px] font-bold mb-[16px]">{notice.title}</h2>
-            <div className="flex justify-between items-center py-[16px] border-b border-gray-300">
+            <h2 className={styles.text.detailTitle}>{notice.title}</h2>
+            <div className={`flex justify-between items-center py-[16px] ${styles.border.bottom} ${styles.border.primary}`}>
               <div className="text-gray-600">
                 <span className="mr-[24px]">작성일: {formatDate(notice.createdAt)}</span>
                 <span>수정일: {formatDate(notice.updatedAt)}</span>
               </div>
             </div>
-            <div className="mt-[32px] mb-[32px] text-[18px] leading-relaxed whitespace-pre-wrap">
+            <div className={`${styles.spacing.mt32} ${styles.spacing.mb32} ${styles.text.content} whitespace-pre-wrap`}>
               {notice.content}
             </div>
           </>
         )}
 
         {notice.images && notice.images.length > 0 && !isEditing && (
-          <div className="mt-[32px] mb-[32px]">
-            <h3 className="text-[20px] font-bold mb-[16px]">첨부 이미지</h3>
+          <div className={`${styles.spacing.mt32} ${styles.spacing.mb32}`}>
+            <h3 className={styles.text.subtitle}>첨부 이미지</h3>
             <div className="grid grid-cols-2 gap-[16px]">
               {notice.images.map((image) => (
-                <div key={image.id} className="border border-gray-300 rounded overflow-hidden">
+                <div key={image.id} className={`border ${styles.border.primary} rounded overflow-hidden`}>
                   <img src={image.url} alt="공지사항 이미지" className="w-full h-auto" />
                 </div>
               ))}
@@ -170,40 +210,40 @@ export default function NoticeDetail({
           </div>
         )}
 
-        <div className="border-t border-gray-300 mt-[32px] mb-[32px]">
+        <div className={`${styles.border.top} ${styles.border.primary} ${styles.spacing.mt32} ${styles.spacing.mb32}`}>
           {notice.prevNotice && (
             <div
-              className="flex items-center py-[12px] border-b border-gray-200 hover:bg-gray-10 cursor-pointer"
+              className={`${styles.navigation.item} ${styles.border.bottom} ${styles.border.primary}`}
               onClick={() => onPrevClick?.(notice.prevNotice!.id)}
             >
-              <span className="text-gray-600 mr-[16px]">이전글</span>
-              <span className="flex-1">{notice.prevNotice.title}</span>
+              <span className={styles.navigation.label}>이전글</span>
+              <span className={styles.navigation.content}>{notice.prevNotice.title}</span>
             </div>
           )}
           {notice.nextNotice && (
             <div
-              className="flex items-center py-[12px] hover:bg-gray-10 cursor-pointer"
+              className={styles.navigation.item}
               onClick={() => onNextClick?.(notice.nextNotice!.id)}
             >
-              <span className="text-gray-600 mr-[16px]">다음글</span>
-              <span className="flex-1">{notice.nextNotice.title}</span>
+              <span className={styles.navigation.label}>다음글</span>
+              <span className={styles.navigation.content}>{notice.nextNotice.title}</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="flex justify-center gap-[12px] mt-[48px] mb-[112px]">
+      <div className={`flex justify-center gap-[12px] ${styles.spacing.mt48} ${styles.spacing.mb112}`}>
         {isEditing ? (
           <>
             <button
               onClick={handleUpdateNotice}
-              className="px-[24px] py-[8px] bg-blue-500 text-white font-medium rounded hover:bg-blue-600"
+              className={`${styles.button.base} ${styles.button.success}`}
             >
               수정 완료
             </button>
             <button
               onClick={() => setIsEditing(false)}
-              className="px-[24px] py-[8px] bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300"
+              className={`${styles.button.base} ${styles.button.secondary}`}
             >
               취소
             </button>
@@ -212,19 +252,19 @@ export default function NoticeDetail({
           <>
             <button
               onClick={handleEditClick}
-              className="px-[24px] py-[8px] bg-blue-400 text-white font-medium rounded hover:bg-blue-600"
+              className={`${styles.button.base} ${styles.button.primary}`}
             >
               수정
             </button>
             <button
               onClick={handleDeleteClick}
-              className="px-[24px] py-[8px] bg-red-400 text-white font-medium rounded hover:bg-red-600"
+              className={`${styles.button.base} ${styles.button.danger}`}
             >
               삭제
             </button>
             <button
               onClick={onBackClick}
-              className="px-[24px] py-[8px] bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300"
+              className={`${styles.button.base} ${styles.button.secondary}`}
             >
               목록으로
             </button>
