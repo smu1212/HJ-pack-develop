@@ -108,22 +108,11 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
     ));
   };
 
-  const getPageButtonClass = (page: number) => {
-    return cn(
-      'w-[12px] py-[4px] h-[28px]',
-      page === 1 ? 'ml-[16px]' : 'ml-[8px]',
-      currentPage === page
-        ? 'text-blue-800 border-b-[2px] border-[#355194]'
-        : 'hover:text-[#355194]'
-    );
-  };
-
   return (
     <div className="w-full px-[450px] py-[60px]">
-      
-      <h1 className="text-[48px] font-bold text-center mt-[72px]">공지사항</h1>
+      <h1 className="text-[48px] font-bold text-center pt-[72px]">공지사항</h1>
 
-      <div className="mt-[160px] mb-[32px] flex justify-center gap-[16px] mb-[104px]">
+      <div className="pt-[160px] pb-[32px] flex justify-center gap-[16px] pb-[104px]">
         <button
           onClick={() => setActiveTab('notice')}
           className={getTabButtonClass(activeTab === 'notice')}
@@ -140,7 +129,7 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
 
       <div className="flex-1">
         {error && (
-          <div className="mb-[16px] p-[12px] bg-red-100 text-red-700 rounded">
+          <div className="pb-[16px] p-[12px] bg-red-100 text-red-700 rounded">
             {error}
           </div>
         )}
@@ -155,125 +144,139 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
               <th className="py-[8px] w-[90px]">조회</th>
             </tr>
           </thead>
-          <tbody>
-            {renderTableBody()}
-          </tbody>
+          <tbody>{renderTableBody()}</tbody>
         </table>
 
-        <div className="flex items-center mt-[16px] justify-between">
-            <div className="flex items-center gap-[8px]">
-                <div className="flex gap-[28px]">
-                <label className="flex items-center gap-[4px]">
-                    <input
-                    type="radio"
-                    name="searchType"
-                    value="author"
-                    checked={searchType === 'author'}
-                    onChange={(e) => setSearchType(e.target.value as 'author')}
-                    />
-                        이름
-                </label>
-                <label className="flex items-center gap-[4px]">
-                    <input
-                    type="radio"
-                    name="searchType"
-                    value="title"
-                    checked={searchType === 'title'}
-                    onChange={(e) => setSearchType(e.target.value as 'title')}
-                    />
-                        제목
-                </label>
-                <label className="flex items-center gap-[4px]">
-                    <input
-                    type="radio"
-                    name="searchType"
-                    value="content"
-                    checked={searchType === 'content'}
-                    onChange={(e) => setSearchType(e.target.value as 'content')}
-                    />
-                        내용
-                </label>
-                </div>
-
+        <div className="flex items-center justify-between py-[16px]">
+          <div className="flex items-center pl-[12px]">
+            <div className="flex gap-[28px]">
+              <label className="flex items-center gap-[6px]">
                 <input
+                  type="radio"
+                  name="searchType"
+                  value="author"
+                  checked={searchType === 'author'}
+                  onChange={(e) => setSearchType(e.target.value as 'author')}
+                />
+                이름
+              </label>
+              <label className="flex items-center gap-[6px]">
+                <input
+                  type="radio"
+                  name="searchType"
+                  value="title"
+                  checked={searchType === 'title'}
+                  onChange={(e) => setSearchType(e.target.value as 'title')}
+                />
+                제목
+              </label>
+              <label className="flex items-center gap-[6px] mr-[32px]"> 
+                <input
+                  type="radio"
+                  name="searchType"
+                  value="content"
+                  checked={searchType === 'content'}
+                  onChange={(e) => setSearchType(e.target.value as 'content')}
+                />
+                내용
+              </label>
+            </div>
+
+            <div className="flex items-center gap-[3px]"> 
+              <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={cn(
-                  'border w-[140px] px-[8px] ml-[20px]',
+                  'border w-[140px] h-[28px] text-[14px]',
                   styles.border.primary,
                   styles.border.hover
                 )}
-                />
-                <button
+              />
+
+              <button
                 onClick={handleSearch}
                 className={cn(
-                  'border px-[8px] -ml-[4px]',
+                  'border h-[28px] px-[10px]',
                   styles.border.primary,
                   styles.text.primary,
                   styles.border.hover,
                   styles.text.primaryHover
                 )}
                 disabled={loading}
-                >
-                    검색
-                </button>
+              >
+                검색
+              </button>
             </div>
+          </div>
 
-            <button 
-                onClick={onWriteClick}
-                className={cn(
-                  'w-[88px] h-[32px] bg-[#d6e4ff] border-[2px] font-medium hover:bg-blue-300 mr-[8px]',
-                  styles.border.active,
-                  styles.text.active
-                )}
-            >
-                글쓰기
-            </button>
+          <button
+            onClick={onWriteClick}
+            className={cn(
+              'w-[96px] h-[32px] flex items-center justify-center bg-[#d6e4ff] border-[2px] font-medium hover:bg-blue-300 text-[#355194]',
+              styles.border.active
+            )}
+          >
+            글쓰기
+          </button>
         </div>
 
-        <div className="flex justify-center mt-[80px] mb-[112px] space-x-[8px] text-[#c8c8c8]">
-          <button
-            onClick={() => handlePageChange(1)}
-            className={styles.pagination.button}
-            disabled={loading || currentPage === 1}
-          >
-            {'<<'}
-          </button>
-          <button
-            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-            className={styles.pagination.button}
-            disabled={loading || currentPage === 1}
-          >
-            {'<'}
-          </button>
-          {Array.from(
-            { length: Math.ceil(total / itemsPerPage) },
-            (_, i) => i + 1
-          ).map((page) => (
+        <div className="flex justify-center items-center gap-[24px] pt-[60px] pb-[112px] text-[#c8c8c8]">
+          <div className="flex items-center gap-[8px]">
             <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={getPageButtonClass(page)}
-              disabled={loading}
+              onClick={() => handlePageChange(1)}
+              className={styles.pagination.button}
+              disabled={loading || currentPage === 1}
             >
-              {page}
+              {'<<'}
             </button>
-          ))}
-          <button
-            onClick={() => handlePageChange(Math.min(Math.ceil(total / itemsPerPage), currentPage + 1))}
-            className={cn(styles.pagination.button, 'ml-[16px]')}
-            disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
-          >
-            {'>'}
-          </button>
-          <button
-            onClick={() => handlePageChange(Math.ceil(total / itemsPerPage))}
-            className={styles.pagination.button}
-            disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
-          >
-            {'>>'}
-          </button>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              className={styles.pagination.button}
+              disabled={loading || currentPage === 1}
+            >
+              {'<'}
+            </button>
+          </div>
+
+          <div className="flex items-center gap-[32px] text-[16px] px-[4px]">
+            {Array.from({ length: Math.ceil(total / itemsPerPage) }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={cn(
+                  'flex items-center justify-center w-[12px] h-[24px]',
+                  currentPage === page
+                    ? 'text-[#355194] border-b-[2px] border-[#355194] font-semibold'
+                    : 'hover:text-[#355194]'
+                )}
+                disabled={loading}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-[8px]"> 
+            <button
+              onClick={() =>
+                handlePageChange(
+                  Math.min(Math.ceil(total / itemsPerPage), currentPage + 1)
+                )
+              }
+              className={styles.pagination.button}
+              disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
+            >
+              {'>'}
+            </button>
+            <button
+              onClick={() => handlePageChange(Math.ceil(total / itemsPerPage))}
+              className={styles.pagination.button}
+              disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
+            >
+              {'>>'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

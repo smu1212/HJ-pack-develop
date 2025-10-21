@@ -27,16 +27,16 @@ const styles = {
     disabled: "opacity-50 cursor-not-allowed",
   },
   label: {
-    row: "flex items-center mb-[24px]",
+    row: "flex items-center pb-[24px]",
     text: "flex-shrink-0 text-[18px]",
     width80: "w-[80px]",
     width96: "w-[96px]",
-    block: "block mb-[12px] font-medium text-[18px]",
+    block: "block pb-[12px] pt-[8px] font-medium text-[18px]",
   },
-  section: "mb-[32px]",
+  section: "pb-[32px]",
   grid: {
     row: "flex gap-[16px]",
-    rowWithSpace: "flex gap-[16px] mb-[16px]",
+    rowWithSpace: "flex gap-[16px] pb-[16px]",
     column: "space-y-[16px]",
   }
 };
@@ -172,15 +172,15 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
   return (
     <div className="w-full px-[450px] py-[60px]">
       <div className="max-w-[1152px] mx-auto bg-white">
-        <h1 className="text-[48px] font-bold text-center mt-[72px]">주문제작 문의</h1>
+        <h1 className="text-[48px] font-bold text-center pt-[72px] pb-[104px]">주문제작 문의</h1>
 
         {error && (
-          <div className="mt-[16px] p-[16px] bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className="pt-[16px] p-[16px] bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
           </div>
         )}
 
-        <div className="border-t-[3px] border-[#929292] pt-[32px] mt-[160px]">
+        <div className="border-t-[3px] border-[#929292] pt-[40px]">
           <div className={styles.label.row}>
             <label className={cn(styles.label.width80, styles.label.text)}>
               제목<span className="text-red-500">*</span>
@@ -232,7 +232,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             />
           </div>
 
-          <div className="flex items-start mb-[24px] gap-[16px]">
+          <div className="flex items-start pb-[48px] gap-[16px]">
             <div className="flex items-center">
               <label className={cn(styles.label.width80, styles.label.text)}>
                 이름<span className="text-red-500">*</span>
@@ -247,7 +247,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             </div>
             <div className="flex-1">
               <div className="flex items-center">
-                <label className="w-[88px] flex-shrink-0 text-[18px] ml-[32px]">
+                <label className="w-[128px] flex-shrink-0 text-[18px] pl-[32px]">
                   비밀번호<span className="text-red-500">*</span>
                 </label>
                 <input
@@ -257,7 +257,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                   onChange={handleInputChange}
                   className={cn(styles.input.base, styles.input.medium)}
                 />
-                <p className="text-red-500 mt-[4px] ml-[12px]">자동 잠금</p>
+                <p className="text-red-500 pt-[4px] pl-[12px]">자동 잠금</p>
               </div>
             </div>
           </div>
@@ -266,7 +266,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             <label className={styles.label.block}>
               상담 방식 동의<span className="text-red-500">*</span>
             </label>
-            <p className="mb-[16px] text-gray-700 text-[18px] font-bold">
+            <p className="pb-[16px] text-gray-700 text-[18px] font-bold">
               입력해 주신 연락처로 전화 상담을 드리고 있습니다. 이에 동의하십니까?
             </p>
             <div className={styles.grid.rowWithSpace}>
@@ -284,7 +284,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               </button>
             </div>
 
-            <p className="mb-[12px] text-gray-400 text-base font-bold text-[18px]">
+            <p className="pb-[12px] text-gray-400 text-base font-bold text-[16px]">
               ※아니오 선택 시 상담 희망 방법 선택
             </p>
             <div className={styles.grid.row}>
@@ -368,7 +368,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 </button>
               ))}
             </div>
-            <div className={cn(styles.grid.row, 'mt-[16px]')}>
+            <div className={cn(styles.grid.row, 'pt-[16px]')}>
               {['은박(증착)', '크라프트지', '친환경 재질(PLA 등)', '기타'].map(material => (
                 <button
                   key={material}
@@ -437,13 +437,13 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             </div>
           </div>
 
-          <div className="flex flex-col mt-[16px] gap-[8px] mb-[48px]">
+          <div className="flex flex-col pt-[16px] gap-[8px] pb-[48px]">
             <div className="flex items-center gap-[28px]">
               <input
                 type="text"
                 className="border-[2px] w-[496px] h-[28px] border-[#929292] hover:border-[#355194]"
               />
-              <button className="w-[112px] h-[28px] bg-[#929292] text-white hover:bg-[#355194] -ml-[12px]">
+              <button className="w-[112px] h-[28px] bg-[#929292] text-white hover:bg-[#355194] -pl-[12px]">
                 파일 업로드
               </button>
             </div>
@@ -495,7 +495,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             />
           </div>
 
-          <div className="flex items-center mb-[48px]">
+          <div className="flex items-center pb-[48px]">
             <label className={cn(styles.label.width96, styles.label.text)}>샘플 요청</label>
             <input
               type="text"
@@ -507,7 +507,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             />
           </div>
 
-          <div className="mb-8">
+          <div className="pb-8">
             <label className={styles.label.block}>
               유입 경로<span className="text-red-500">*</span>{' '}
               <span className="text-gray-400 text-[14px]">(중복 선택 가능)</span>
@@ -537,7 +537,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
           </div>
 
           <div className={styles.section}>
-            <label className="block mb-[8px] font-medium text-[18px]">
+            <label className="block pb-[8px] font-medium text-[18px]">
               개인정보 수집 동의<span className="text-red-500">*</span>
             </label>
             <div className="flex items-start gap-[8px]">
@@ -552,7 +552,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
             </div>
           </div>
 
-          <div className="flex justify-end border-t border-[#929292] pt-[16px] mt-[24px]">
+          <div className="flex justify-end border-t border-[#929292] pt-[16px] pt-[24px]">
             <button 
               onClick={handleSubmit}
               disabled={isLoading}

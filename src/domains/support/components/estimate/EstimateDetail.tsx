@@ -19,8 +19,8 @@ const styles = {
   container: 'w-full px-[450px] py-[60px]',
   title: 'text-[48px] font-bold text-center mt-[72px]',
   divider: {
-    top: 'border-t-[3px] border-[#929292] mt-[160px]',
-    thin: 'border-[1px] border-gray-200',
+    top: 'border-t-[2px] border-[#929292] mt-[104px]',
+    thin: 'border border-[#929292]',
   },
   border: {
     primary: 'border-[#929292]',
@@ -46,11 +46,11 @@ const styles = {
   content: {
     section: 'h-[320px] space-y-[4px]',
   },
-  textarea: 'w-[98%] border border-[2px] border-[#929292] p-[12px] focus:outline-none focus:ring-2 focus:border-[#355194] min-h-[120px] text-[18px]',
+  textarea: 'w-[98%] border border-[2px] border-[#929292] p-[12px] focus:border-[#355194] min-h-[120px] text-[18px]',
   button: {
     base: 'px-[32px] h-[32px] border-[2px] font-bold',
     delete: 'border-[#929292] text-[#929292] hover:bg-gray-300',
-    submit: 'bg-blue-100 border-blue-800 text-blue-800 hover:bg-blue-500',
+    submit: 'bg-[#d6e4ff] border-[#355194] text-[#355194] hover:bg-blue-300',
   },
 };
 

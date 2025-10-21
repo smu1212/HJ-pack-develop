@@ -8,10 +8,10 @@ interface EstimateListProps {
 
 const styles = {
   container: "px-[450px] py-[60px]",
-  title: "text-[48px] font-bold text-center mt-[72px]",
+  title: "text-[48px] font-bold text-center pt-[72px]",
   
   inquiry: {
-    wrapper: "text-center mt-40 mb-26",
+    wrapper: "text-center pt-40 pb-26",
     button: "bg-[#ffc8bd] text-[24px] w-[280px] h-[60px] rounded-full text-black hover:bg-red-300 font-medium",
   },
   
@@ -36,23 +36,23 @@ const styles = {
   },
   
   search: {
-    container: "flex items-center gap-[28px] text-[16px] mt-[16px]",
-    radioGroup: "flex gap-[28px]",
-    radioLabel: "flex items-center gap-[4px]",
-    input: "border w-[140px] px-[4px]",
-    button: "border px-[8px] -ml-[24px]",
-  },
+    container: "flex items-center text-[16px] pt-[20px]",
+    radioGroup: "flex gap-[28px] pr-[32px] pl-[12px]",
+    radioLabel: "flex items-center gap-[4px]",  
+    input: "border w-[140px] px-[4px] pr-[16px]",
+    button: "border px-[8px]",
+  }, 
   
   pagination: {
-    container: "flex justify-center mt-[80px] mb-[112px] space-x-[8px] text-[#c8c8c8]",
-    button: "w-[32px] h-[32px] border border-[#c8c8c8] rounded-full hover:border-[#355194] hover:text-[#355194]",
-    pageNumber: "px-[4px] py-[4px] h-[28px] hover:text-[#355194]",
+    container: "flex justify-center pt-[80px] pb-[112px] space-x-[8px] text-[#c8c8c8]",
+    button: "flex items-center justify-center w-[32px] h-[32px] border border-[#c8c8c8] rounded-full hover:border-[#355194] hover:text-[#355194]",
+    pageNupber: "px-[4px] py-[4px] h-[28px] hover:text-[#355194]",
     pageActive: "text-[#355194] border-b-[2px] border-[#355194]",
   },
   
   spacing: {
-    ml8: "ml-[8px]",
-    ml16: "ml-[16px]",
+    pl16: "pl-[16px]",
+    pl4: "pl-[4px]",
   },
 };
 
@@ -123,50 +123,57 @@ export default function EstimateList({ onButtonClick }: EstimateListProps) {
             ))}
           </div>
 
-          <input
-            type="text"
-            className={cn(
+          <div className="flex items-center gap-[4px]">
+            <input
+              type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className={cn(
               styles.search.input,
               styles.border.primary,
               styles.border.hover
             )}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-
-          <button
-            onClick={handleSearch}
-            className={cn(
+            />
+            <button
+              onClick={handleSearch}
+              className={cn(
               styles.search.button,
               styles.text.primary,
               styles.border.primary,
               styles.border.hover,
               styles.text.primaryHover
             )}
-          >
-            검색
-          </button>
+            >
+              검색
+            </button>
+          </div>
         </div>
 
         <div className={styles.pagination.container}>
-          <button className={styles.pagination.button}>{"<<"}</button>
-          <button className={styles.pagination.button}>{"<"}</button>
+          <div className="flex items-center gap-[4px]">
+            <button className={styles.pagination.button}>{"<<"}</button>
+            <button className={styles.pagination.button}>{"<"}</button>
+          </div>
 
-          {[1, 2, 3, 4, 5].map((num) => (
-            <button
-              key={num}
-              className={cn(
-                styles.pagination.pageNumber,
-                num === 1 && styles.pagination.pageActive,
-                num === 1 ? styles.spacing.ml16 : styles.spacing.ml8
-              )}
-            >
-              {num}
-            </button>
-          ))}
+          <div className="flex items-center gap-[12px] px-[16px]">
+            {[1, 2, 3, 4, 5].map((num) => (
+              <button
+                key={num}
+                className={cn(
+                  styles.pagination.pageNupber,
+                  num === 1 && styles.pagination.pageActive,
+                  num === 1 ? styles.spacing.pl4 : styles.spacing.pl16
+                )}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
 
-          <button className={cn(styles.pagination.button, styles.spacing.ml16)}>{">"}</button>
-          <button className={styles.pagination.button}>{">>"}</button>
+          <div className="flex items-center gap-[4px]">
+            <button className={cn(styles.pagination.button)}>{">"}</button>
+            <button className={styles.pagination.button}>{">>"}</button>
+          </div>
         </div>
       </div>
     </section>

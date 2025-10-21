@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useNoticeStore } from '@domains/notice/store/NoticeStore';
 import { cn } from '@util/index';
+
 interface NoticeWriteProps {
   onBackClick?: () => void;
   onAddNotice?: (notice: { title: string; content: string }) => void;
@@ -11,15 +12,15 @@ interface NoticeWriteProps {
 
 const styles = {
   container: 'w-full px-[450px] py-[60px]',
-  title: 'text-[48px] font-bold text-center mt-[72px]',
+  title: 'text-[48px] font-bold text-center pt-[72px] pb-[104px]', 
   divider: {
-    top: 'border-t-[2px] border-[#929292] mt-[160px]',
+    top: 'border-t-[2px] border-[#929292]', 
     thin: 'h-[1px] border-[#929292]',
   },
   input: {
-    title: 'w-full text-[18px] py-[8px] mt-[4px] mb-[4px] focus:outline-none ml-[16px]',
-    textarea: 'w-full h-[560px] p-[16px] mt-[12px] mb-[24px] text-[18px] resize-none focus:outline-none',
-    password: 'border border-[#929292] w-[200px] h-[32px] ml-[12px] hover:border-[#355194]',
+    title: 'w-full text-[18px] py-[8px] pt-[10px] pb-[10px] focus:outline-none pl-[16px]', 
+    textarea: 'w-full h-[560px] p-[16px] pt-[28px] pb-[24px] text-[18px] resize-none focus:outline-none', 
+    password: 'border border-[#929292] w-[200px] h-[32px] pl-[12px] hover:border-[#355194]',
   },
   border: {
     primary: 'border-[#929292]',
@@ -37,11 +38,11 @@ const styles = {
     submit: 'bg-[#d6e4ff] border-[#355194] text-[#355194] font-medium hover:bg-blue-300',
   },
   spacing: {
-    mb16: 'mb-[16px]',
-    mt24: 'mt-[24px]',
-    mb160: 'mb-[160px]',
+    pb16: 'pb-[16px]', 
+    pt24: 'pt-[4px]', 
+    pb160: 'pb-[160px]', 
   },
-  error: 'mb-[16px] p-[12px] bg-red-100 text-red-700 rounded',
+  error: 'pb-[16px] p-[12px] bg-red-100 text-red-700', 
 };
 
 export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: NoticeWriteProps) {
@@ -116,15 +117,17 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
         disabled={loading}
       />
 
-      <hr className={cn(styles.divider.thin, styles.spacing.mb16)} />
+      <hr className={cn(styles.divider.thin, styles.spacing.pb16)} />
 
-      <div className={cn(
-        'flex items-center w-full justify-between',
-        styles.spacing.mb160,
-        styles.spacing.mt24
-      )}>
+      <div
+        className={cn(
+          'flex items-center w-full justify-between',
+          styles.spacing.pb160,
+          styles.spacing.pt24
+        )}
+      >
         <div className="flex items-center">
-          <label className="ml-[16px] mr-[8x] font-medium" htmlFor="pw-input">
+          <label className="pl-[16px] pr-[8px] font-medium" htmlFor="pw-input">
             <span className="text-black">PW</span>
             <span className={styles.text.danger}>*</span>
           </label>
@@ -136,10 +139,10 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
             className={styles.input.password}
             disabled={loading}
           />
-          <span className={cn('ml-[16px]', styles.text.error)}>자동 잠금</span>
+          <span className={cn('pl-[16px]', styles.text.error)}>자동 잠금</span>
         </div>
 
-        <div className="flex gap-[8px]">
+        <div className="flex gap-[8px] pr-[12px]">
           <button
             onClick={handleDelete}
             className={cn(styles.button.base, styles.button.delete)}
