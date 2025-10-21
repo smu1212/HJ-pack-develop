@@ -81,6 +81,10 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
     setPassword('');
   };
 
+  const getSubmitButtonText = () => {
+    return loading ? '저장 중...' : '글쓰기';
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>공지사항</h1>
@@ -148,7 +152,7 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
             className={cn(styles.button.base, styles.button.submit)}
             disabled={loading}
           >
-            {loading ? '저장 중...' : '글쓰기'}
+            {getSubmitButtonText()}
           </button>
         </div>
       </div>

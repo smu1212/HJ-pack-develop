@@ -14,6 +14,16 @@ interface NoticeDetailProps {
   onAuthRequired?: () => void;
 }
 
+const styles = {
+  button: {
+    base: 'px-[24px] py-[8px] font-medium',
+    primary: 'bg-blue-500 text-white hover:bg-blue-600',
+    edit: 'bg-blue-400 text-white hover:bg-blue-600',
+    danger: 'bg-red-400 text-white hover:bg-red-600',
+    secondary: 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+  },
+};
+
 export default function NoticeDetail({ 
   noticeId, 
   onBackClick, 
@@ -98,6 +108,85 @@ export default function NoticeDetail({
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   };
 
+  const renderContent = () => {
+    if (isEditing) {
+      return (
+        <>
+          <input
+            type="text"
+            value={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
+            className="w-full border border-gray-300 rounded p-[8px] text-[24px] font-bold mb-[16px]"
+          />
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="w-full border border-gray-300 rounded p-[12px] h-[256px] text-[18px] leading-relaxed"
+          />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <h2 className="text-[30px] font-bold mb-[16px]">{notice!.title}</h2>
+        <div className="flex justify-between items-center py-[16px] border-b border-gray-300">
+          <div className="text-gray-600">
+            <span className="mr-[24px]">작성일: {formatDate(notice!.createdAt)}</span>
+            <span>수정일: {formatDate(notice!.updatedAt)}</span>
+          </div>
+        </div>
+        <div className="mt-[32px] mb-[32px] text-[18px] leading-relaxed whitespace-pre-wrap">
+          {notice!.content}
+        </div>
+      </>
+    );
+  };
+
+  const renderActionButtons = () => {
+    if (isEditing) {
+      return (
+        <>
+          <button
+            onClick={handleUpdateNotice}
+            className={cn(styles.button.base, styles.button.primary)}
+          >
+            수정 완료
+          </button>
+          <button
+            onClick={() => setIsEditing(false)}
+            className={cn(styles.button.base, styles.button.secondary)}
+          >
+            취소
+          </button>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <button
+          onClick={handleEditClick}
+          className={cn(styles.button.base, styles.button.edit)}
+        >
+          수정
+        </button>
+        <button
+          onClick={handleDeleteClick}
+          className={cn(styles.button.base, styles.button.danger)}
+        >
+          삭제
+        </button>
+        <button
+          onClick={onBackClick}
+          className={cn(styles.button.base, styles.button.secondary)}
+        >
+          목록으로
+        </button>
+      </>
+    );
+  };
+
   if (loading) {
     return (
       <div className="w-full px-[450px] py-[60px]">
@@ -129,34 +218,7 @@ export default function NoticeDetail({
       <div className="border-t-[2px] border-gray-300 mt-[160px]" />
 
       <div className="mt-[32px]">
-        {isEditing ? (
-          <>
-            <input
-              type="text"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              className="w-full border border-gray-300 rounded p-[8px] text-[24px] font-bold mb-[16px]"
-            />
-            <textarea
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              className="w-full border border-gray-300 rounded p-[12px] h-[256px] text-[18px] leading-relaxed"
-            />
-          </>
-        ) : (
-          <>
-            <h2 className="text-[30px] font-bold mb-[16px]">{notice.title}</h2>
-            <div className="flex justify-between items-center py-[16px] border-b border-gray-300">
-              <div className="text-gray-600">
-                <span className="mr-[24px]">작성일: {formatDate(notice.createdAt)}</span>
-                <span>수정일: {formatDate(notice.updatedAt)}</span>
-              </div>
-            </div>
-            <div className="mt-[32px] mb-[32px] text-[18px] leading-relaxed whitespace-pre-wrap">
-              {notice.content}
-            </div>
-          </>
-        )}
+        {renderContent()}
 
         {notice.images && notice.images.length > 0 && !isEditing && (
           <div className="mt-[32px] mb-[32px]">
@@ -194,43 +256,7 @@ export default function NoticeDetail({
       </div>
 
       <div className="flex justify-center gap-[12px] mt-[48px] mb-[112px]">
-        {isEditing ? (
-          <>
-            <button
-              onClick={handleUpdateNotice}
-              className="px-[24px] py-[8px] bg-blue-500 text-white font-medium hover:bg-blue-600"
-            >
-              수정 완료
-            </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="px-[24px] py-[8px] bg-gray-200 text-gray-700 font-medium hover:bg-gray-300"
-            >
-              취소
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={handleEditClick}
-              className="px-[24px] py-[8px] bg-blue-400 text-white font-medium hover:bg-blue-600"
-            >
-              수정
-            </button>
-            <button
-              onClick={handleDeleteClick}
-              className="px-[24px] py-[8px] bg-red-400 text-white font-medium hover:bg-red-600"
-            >
-              삭제
-            </button>
-            <button
-              onClick={onBackClick}
-              className="px-[24px] py-[8px] bg-gray-200 text-gray-700 font-medium hover:bg-gray-300"
-            >
-              목록으로
-            </button>
-          </>
-        )}
+        {renderActionButtons()}
       </div>
     </div>
   );

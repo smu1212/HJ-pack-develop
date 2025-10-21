@@ -5,6 +5,7 @@ import { useAuthStore } from '@store/global/authStore';
 import { useModalStore } from '@store/global/modal.store';
 import { useNoticeStore } from '@domains/notice/store/NoticeStore';
 import { cn } from '@util/index';
+
 interface PasswordFormProps {
   onSuccess?: () => void;
   returnTo?: 'write' | 'detail';
@@ -64,6 +65,31 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
     }
   };
 
+  const getInputType = () => {
+    return showPassword ? 'text' : 'password';
+  };
+
+  const getToggleButtonLabel = () => {
+    return showPassword ? '비밀번호 숨기기' : '비밀번호 보기';
+  };
+
+  const getToggleButtonIcon = () => {
+    return showPassword ? '👁️' : '👁️‍🗨️';
+  };
+
+  const renderSubmitButtonContent = () => {
+    if (loading) {
+      return (
+        <span className={styles.button.loading}>
+          <span className={styles.button.spinner}>⏳</span>
+          확인 중...
+        </span>
+      );
+    }
+
+    return '확인';
+  };
+
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <h2 className={styles.title}>비밀번호 입력</h2>
@@ -79,7 +105,7 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
 
       <div className={styles.input.container}>
         <input
-          type={showPassword ? 'text' : 'password'}
+          type={getInputType()}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="비밀번호를 입력하세요"
@@ -91,9 +117,9 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
           onClick={() => setShowPassword(!showPassword)}
           disabled={loading}
           className={styles.input.toggleButton}
-          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+          aria-label={getToggleButtonLabel()}
         >
-          {showPassword ? '👁️' : '👁️‍🗨️'}
+          {getToggleButtonIcon()}
         </button>
       </div>
 
@@ -102,14 +128,7 @@ export default function PasswordForm({ onSuccess }: PasswordFormProps) {
         disabled={loading || !password.trim()}
         className={styles.button.submit}
       >
-        {loading ? (
-          <span className={styles.button.loading}>
-            <span className={styles.button.spinner}>⏳</span>
-            확인 중...
-          </span>
-        ) : (
-          '확인'
-        )}
+        {renderSubmitButtonContent()}
       </button>
     </form>
   );

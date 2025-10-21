@@ -62,6 +62,62 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   };
 
+  const getTabButtonClass = (isActive: boolean) => {
+    return cn(
+      styles.tabButton.base,
+      isActive ? styles.tabButton.active : styles.tabButton.inactive
+    );
+  };
+
+  const renderTableBody = () => {
+    if (loading) {
+      return (
+        <tr>
+          <td colSpan={5} className="py-[32px] text-center text-gray-500">
+            로딩 중...
+          </td>
+        </tr>
+      );
+    }
+
+    if (notices.length === 0) {
+      return (
+        <tr>
+          <td colSpan={5} className="py-[32px] text-center text-gray-500">
+            공지사항이 없습니다.
+          </td>
+        </tr>
+      );
+    }
+
+    return notices.map((notice) => (
+      <tr 
+        key={notice.id} 
+        className="border-b border-[#a8a9a9] hover:bg-gray-10 cursor-pointer"
+        onClick={() => {
+          console.log('클릭됨:', notice.id);
+          onDetailClick?.(notice.id);
+        }}
+      >
+        <td className="py-[14px]">{notice.id}</td>
+        <td className="py-[14px] text-left pl-[32px]">{notice.title}</td>
+        <td className="py-[14px]">홍길*</td>
+        <td className="py-[14px]">{formatDate(notice.createdAt)}</td>
+        <td className="py-[14px]">0</td>
+      </tr>
+    ));
+  };
+
+  const getPageButtonClass = (page: number) => {
+    return cn(
+      'w-[12px] py-[4px] h-[28px]',
+      page === 1 ? 'ml-[16px]' : 'ml-[8px]',
+      currentPage === page
+        ? 'text-blue-800 border-b-[2px] border-[#355194]'
+        : 'hover:text-[#355194]'
+    );
+  };
+
   return (
     <div className="w-full px-[450px] py-[60px]">
       
@@ -70,19 +126,13 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
       <div className="mt-[160px] mb-[32px] flex justify-center gap-[16px] mb-[104px]">
         <button
           onClick={() => setActiveTab('notice')}
-          className={cn(
-            styles.tabButton.base,
-            activeTab === 'notice' ? styles.tabButton.active : styles.tabButton.inactive
-          )}
+          className={getTabButtonClass(activeTab === 'notice')}
         >
           공 지
         </button>
         <button
           onClick={() => setActiveTab('report')}
-          className={cn(
-            styles.tabButton.base,
-            activeTab === 'report' ? styles.tabButton.active : styles.tabButton.inactive
-          )}
+          className={getTabButtonClass(activeTab === 'report')}
         >
           보도자료
         </button>
@@ -106,36 +156,7 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
             </tr>
           </thead>
           <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={5} className="py-[32px] text-center text-gray-500">
-                  로딩 중...
-                </td>
-              </tr>
-            ) : notices.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="py-[32px] text-center text-gray-500">
-                  공지사항이 없습니다.
-                </td>
-              </tr>
-            ) : (
-              notices.map((notice) => (
-                <tr 
-                  key={notice.id} 
-                  className="border-b border-[#a8a9a9] hover:bg-gray-10 cursor-pointer"
-                  onClick={() => {
-                    console.log('클릭됨:', notice.id);
-                    onDetailClick?.(notice.id);
-                  }}
-                >
-                  <td className="py-[14px]">{notice.id}</td>
-                  <td className="py-[14px] text-left pl-[32px]">{notice.title}</td>
-                  <td className="py-[14px]">홍길*</td>
-                  <td className="py-[14px]">{formatDate(notice.createdAt)}</td>
-                  <td className="py-[14px]">0</td>
-                </tr>
-              ))
-            )}
+            {renderTableBody()}
           </tbody>
         </table>
 
@@ -233,13 +254,7 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={cn(
-                'w-[12px] py-[4px] h-[28px]',
-                page === 1 ? 'ml-[16px]' : 'ml-[8px]',
-                currentPage === page
-                  ? 'text-blue-800 border-b-[2px] border-[#355194]'
-                  : 'hover:text-[#355194]'
-              )}
+              className={getPageButtonClass(page)}
               disabled={loading}
             >
               {page}

@@ -113,6 +113,10 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
     );
   };
 
+  const getSubmitButtonText = () => {
+    return isLoading ? '접수 중...' : '등 록';
+  };
+
   const handleSubmit = async () => {
     setError(null);
     
@@ -554,7 +558,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               disabled={isLoading}
               className="px-[64px] py-[8px] bg-[#d6e4ff] border-[2px] border-[#355194] text-[#355194] font-bold hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? '접수 중...' : '등 록'}
+              {getSubmitButtonText()}
             </button>
           </div>
         </div>
