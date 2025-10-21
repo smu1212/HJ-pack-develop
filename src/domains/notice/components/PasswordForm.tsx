@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAuthStore } from '@store/global/authStore';
 import { useModalStore } from '@store/global/modal.store';
 import { useNoticeStore } from '@domains/notice/store/NoticeStore';
-
+import { cn } from '@util/index';
 interface PasswordFormProps {
   onSuccess?: () => void;
   returnTo?: 'write' | 'detail';

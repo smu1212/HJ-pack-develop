@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { useNoticeStore } from '@domains/notice/store/NoticeStore';
-
+import { cn } from '@util/index';
 interface NoticeWriteProps {
   onBackClick?: () => void;
   onAddNotice?: (notice: { title: string; content: string }) => void;
   accessToken?: string | null;
 }
 
-// 재사용 가능한 스타일 정의
 const styles = {
   container: 'w-full px-[450px] py-[60px]',
   title: 'text-[48px] font-bold text-center mt-[72px]',
@@ -113,9 +112,13 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
         disabled={loading}
       />
 
-      <hr className={`${styles.divider.thin} ${styles.spacing.mb16}`} />
+      <hr className={cn(styles.divider.thin, styles.spacing.mb16)} />
 
-      <div className={`flex items-center w-full justify-between ${styles.spacing.mb160} ${styles.spacing.mt24}`}>
+      <div className={cn(
+        'flex items-center w-full justify-between',
+        styles.spacing.mb160,
+        styles.spacing.mt24
+      )}>
         <div className="flex items-center">
           <label className="ml-[16px] mr-[8x] font-medium" htmlFor="pw-input">
             <span className="text-black">PW</span>
@@ -129,20 +132,20 @@ export default function NoticeWrite({ onBackClick, onAddNotice, accessToken }: N
             className={styles.input.password}
             disabled={loading}
           />
-          <span className={`ml-[16px] ${styles.text.error}`}>자동 잠금</span>
+          <span className={cn('ml-[16px]', styles.text.error)}>자동 잠금</span>
         </div>
 
         <div className="flex gap-[8px]">
           <button
             onClick={handleDelete}
-            className={`${styles.button.base} ${styles.button.delete}`}
+            className={cn(styles.button.base, styles.button.delete)}
             disabled={loading}
           >
             삭 제
           </button>
           <button
             onClick={handleSubmit}
-            className={`${styles.button.base} ${styles.button.submit}`}
+            className={cn(styles.button.base, styles.button.submit)}
             disabled={loading}
           >
             {loading ? '저장 중...' : '글쓰기'}

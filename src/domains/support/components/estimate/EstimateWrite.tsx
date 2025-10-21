@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { cn } from '@util/index';
 interface EstimateWriteProps {
   onSubmit: (inquiryData: {
     title: string;
@@ -105,10 +105,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
   };
 
   const getButtonClass = (isSelected: boolean, isDisabled: boolean = false, customWidth?: string) => {
-    const width = customWidth || styles.button.small;
-    const state = isSelected ? styles.button.selected : styles.button.default;
-    const disabled = isDisabled ? styles.button.disabled : '';
-    return `${width} ${styles.button.base} ${state} ${disabled}`.trim();
+    return cn(
+      customWidth || styles.button.small,
+      styles.button.base,
+      isSelected ? styles.button.selected : styles.button.default,
+      isDisabled && styles.button.disabled
+    );
   };
 
   const handleSubmit = async () => {
@@ -176,7 +178,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
 
         <div className="border-t-[3px] border-[#929292] pt-[32px] mt-[160px]">
           <div className={styles.label.row}>
-            <label className={`${styles.label.width80} ${styles.label.text}`}>
+            <label className={cn(styles.label.width80, styles.label.text)}>
               제목<span className="text-red-500">*</span>
             </label>
             <input
@@ -184,12 +186,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className={`${styles.input.base} ${styles.input.full}`}
+              className={cn(styles.input.base, styles.input.full)}
             />
           </div>
 
           <div className={styles.label.row}>
-            <label className={`${styles.label.width80} ${styles.label.text}`}>
+            <label className={cn(styles.label.width80, styles.label.text)}>
               메일<span className="text-red-500">*</span>
             </label>
             <input
@@ -197,12 +199,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="menu"
               value={formData.menu}
               onChange={handleInputChange}
-              className={`${styles.input.base} ${styles.input.full}`}
+              className={cn(styles.input.base, styles.input.full)}
             />
           </div>
 
           <div className={styles.label.row}>
-            <label className={`${styles.label.width80} ${styles.label.text}`}>
+            <label className={cn(styles.label.width80, styles.label.text)}>
               연락처<span className="text-red-500">*</span>
             </label>
             <input
@@ -210,25 +212,25 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               name="contact"
               value={formData.contact}
               onChange={handleInputChange}
-              className={`${styles.input.base} ${styles.input.full}`}
+              className={cn(styles.input.base, styles.input.full)}
             />
           </div>
 
           <div className={styles.label.row}>
-            <label className={`${styles.label.width80} ${styles.label.text}`}>업체명</label>
+            <label className={cn(styles.label.width80, styles.label.text)}>업체명</label>
             <input
               type="text"
               name="businessType"
               value={formData.businessType}
               onChange={handleInputChange}
               placeholder="(선택)"
-              className={`${styles.input.base} ${styles.input.full}`}
+              className={cn(styles.input.base, styles.input.full)}
             />
           </div>
 
           <div className="flex items-start mb-[24px] gap-[16px]">
             <div className="flex items-center">
-              <label className={`${styles.label.width80} ${styles.label.text}`}>
+              <label className={cn(styles.label.width80, styles.label.text)}>
                 이름<span className="text-red-500">*</span>
               </label>
               <input
@@ -236,7 +238,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className={`${styles.input.base} ${styles.input.medium}`}
+                className={cn(styles.input.base, styles.input.medium)}
               />
             </div>
             <div className="flex-1">
@@ -249,7 +251,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`${styles.input.base} ${styles.input.medium}`}
+                  className={cn(styles.input.base, styles.input.medium)}
                 />
                 <p className="text-red-500 mt-[4px] ml-[12px]">자동 잠금</p>
               </div>
@@ -362,7 +364,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                 </button>
               ))}
             </div>
-            <div className={`${styles.grid.row} mt-[16px]`}>
+            <div className={cn(styles.grid.row, 'mt-[16px]')}>
               {['은박(증착)', '크라프트지', '친환경 재질(PLA 등)', '기타'].map(material => (
                 <button
                   key={material}
@@ -448,7 +450,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
           </div>
 
           <div className={styles.label.row}>
-            <label className={`${styles.label.width96} ${styles.label.text}`}>
+            <label className={cn(styles.label.width96, styles.label.text)}>
               제작 규격<span className="text-red-500">*</span>
             </label>
             <input
@@ -457,12 +459,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               value={formData.specification}
               onChange={handleInputChange}
               placeholder="ex) 170 X 270 mm"
-              className={`${styles.input.base} ${styles.input.text}`}
+              className={cn(styles.input.base, styles.input.text)}
             />
           </div>
 
           <div className={styles.label.row}>
-            <label className={`${styles.label.width96} ${styles.label.text}`}>
+            <label className={cn(styles.label.width96, styles.label.text)}>
               제작 수량<span className="text-red-500">*</span>
             </label>
             <input
@@ -471,12 +473,12 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               value={formData.number}
               onChange={handleInputChange}
               placeholder="ex) 5,000장, 10,000장, 50,000장 이상 등"
-              className={`${styles.input.base} ${styles.input.text}`}
+              className={cn(styles.input.base, styles.input.text)}
             />
           </div>
 
           <div className={styles.label.row}>
-            <label className={`${styles.label.width96} ${styles.label.text}`}>
+            <label className={cn(styles.label.width96, styles.label.text)}>
               포장 내용물<span className="text-red-500">*</span>
             </label>
             <input
@@ -485,19 +487,19 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
               value={formData.content}
               onChange={handleInputChange}
               placeholder="ex) 오징어채, 과일젤리, 화장품 샘플 등"
-              className={`${styles.input.base} ${styles.input.text}`}
+              className={cn(styles.input.base, styles.input.text)}
             />
           </div>
 
           <div className="flex items-center mb-[48px]">
-            <label className={`${styles.label.width96} ${styles.label.text}`}>샘플 요청</label>
+            <label className={cn(styles.label.width96, styles.label.text)}>샘플 요청</label>
             <input
               type="text"
               name="sample"
               value={formData.sample}
               onChange={handleInputChange}
               placeholder="ex) 애호박 인큐 포장 및 김치 포장재 등"
-              className={`${styles.input.base} ${styles.input.text}`}
+              className={cn(styles.input.base, styles.input.text)}
             />
           </div>
 
@@ -524,7 +526,7 @@ export default function EstimateWrite({ onSubmit }: EstimateWriteProps) {
                   name="route"
                   value={formData.route}
                   onChange={handleInputChange}
-                  className={`${styles.input.base} ${styles.input.text}`}
+                  className={cn(styles.input.base, styles.input.text)}
                 />
               </div>
             </div>

@@ -1,13 +1,11 @@
 "use client";
 
 import { useEstimateStore } from "@domains/support/store/EstimateStore";
-import clsx from "clsx";
-
+import { cn } from "@util/index";
 interface EstimateListProps {
   onButtonClick?: () => void;
 }
 
-// 재사용 가능한 스타일 정의
 const styles = {
   container: "px-[450px] py-[60px]",
   title: "text-[48px] font-bold text-center mt-[72px]",
@@ -88,18 +86,18 @@ export default function EstimateList({ onButtonClick }: EstimateListProps) {
         <table className={styles.table.base}>
           <thead>
             <tr className={styles.table.header}>
-              <th className={`${styles.table.header} w-[60px]`}>번호</th>
+              <th className={cn(styles.table.header, 'w-[60px]')}>번호</th>
               <th className={styles.table.header}>제목</th>
-              <th className={`${styles.table.header} w-[120px]`}>이름</th>
-              <th className={`${styles.table.header} w-[120px]`}>날짜</th>
-              <th className={`${styles.table.header} w-[90px]`}>조회</th>
+              <th className={cn(styles.table.header, 'w-[120px]')}>이름</th>
+              <th className={cn(styles.table.header, 'w-[120px]')}>날짜</th>
+              <th className={cn(styles.table.header, 'w-[90px]')}>조회</th>
             </tr>
           </thead>
           <tbody>
             {inquiries.map(({ id, title, name, date, views }) => (
               <tr key={id} className={styles.table.row}>
                 <td className={styles.table.cell}>{id}</td>
-                <td className={clsx(styles.table.cell, styles.table.cellLeft)}>
+                <td className={cn(styles.table.cell, styles.table.cellLeft)}>
                   {title}
                 </td>
                 <td className={styles.table.cell}>{name}</td>
@@ -127,14 +125,24 @@ export default function EstimateList({ onButtonClick }: EstimateListProps) {
 
           <input
             type="text"
-            className={`${styles.search.input} ${styles.border.primary} ${styles.border.hover}`}
+            className={cn(
+              styles.search.input,
+              styles.border.primary,
+              styles.border.hover
+            )}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
 
           <button
             onClick={handleSearch}
-            className={`${styles.search.button} ${styles.text.primary} ${styles.border.primary} ${styles.border.hover} ${styles.text.primaryHover}`}
+            className={cn(
+              styles.search.button,
+              styles.text.primary,
+              styles.border.primary,
+              styles.border.hover,
+              styles.text.primaryHover
+            )}
           >
             검색
           </button>
@@ -147,18 +155,17 @@ export default function EstimateList({ onButtonClick }: EstimateListProps) {
           {[1, 2, 3, 4, 5].map((num) => (
             <button
               key={num}
-              className={clsx(
+              className={cn(
                 styles.pagination.pageNumber,
-                num === 1
-                  ? `${styles.pagination.pageActive} ${styles.spacing.ml16}`
-                  : styles.spacing.ml8
+                num === 1 && styles.pagination.pageActive,
+                num === 1 ? styles.spacing.ml16 : styles.spacing.ml8
               )}
             >
               {num}
             </button>
           ))}
 
-          <button className={clsx(styles.pagination.button, styles.spacing.ml16)}>{">"}</button>
+          <button className={cn(styles.pagination.button, styles.spacing.ml16)}>{">"}</button>
           <button className={styles.pagination.button}>{">>"}</button>
         </div>
       </div>

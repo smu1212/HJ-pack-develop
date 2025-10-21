@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useNoticeStore } from '@domains/notice/store/NoticeStore';
+import { cn } from '@util/index';
 
 interface NoticeListProps {
   onWriteClick?: () => void;
@@ -26,12 +27,6 @@ const styles = {
   },
   pagination: {
     button: 'w-[32px] h-[32px] border border-[#c8c8c8] rounded-full hover:border-[#355194] hover:text-[#355194]',
-    pageNumber: (isActive: boolean) => 
-      `w-[12px] py-[4px] h-[28px] ${
-        isActive 
-          ? 'text-blue-800 border-b-[2px] border-[#355194]' 
-          : 'hover:text-[#355194]'
-      }`,
   },
 };
 
@@ -67,9 +62,6 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
     return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   };
 
-  const getTabClassName = (isActive: boolean) => 
-    `${styles.tabButton.base} ${isActive ? styles.tabButton.active : styles.tabButton.inactive}`;
-
   return (
     <div className="w-full px-[450px] py-[60px]">
       
@@ -78,13 +70,19 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
       <div className="mt-[160px] mb-[32px] flex justify-center gap-[16px] mb-[104px]">
         <button
           onClick={() => setActiveTab('notice')}
-          className={getTabClassName(activeTab === 'notice')}
+          className={cn(
+            styles.tabButton.base,
+            activeTab === 'notice' ? styles.tabButton.active : styles.tabButton.inactive
+          )}
         >
           공 지
         </button>
         <button
           onClick={() => setActiveTab('report')}
-          className={getTabClassName(activeTab === 'report')}
+          className={cn(
+            styles.tabButton.base,
+            activeTab === 'report' ? styles.tabButton.active : styles.tabButton.inactive
+          )}
         >
           보도자료
         </button>
@@ -180,11 +178,21 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`border w-[140px] px-[8px] ${styles.border.primary} ${styles.border.hover} ml-[20px]`}
+                className={cn(
+                  'border w-[140px] px-[8px] ml-[20px]',
+                  styles.border.primary,
+                  styles.border.hover
+                )}
                 />
                 <button
                 onClick={handleSearch}
-                className={`border px-[8px] ${styles.border.primary} ${styles.text.primary} ${styles.border.hover} ${styles.text.primaryHover} -ml-[4px]`}
+                className={cn(
+                  'border px-[8px] -ml-[4px]',
+                  styles.border.primary,
+                  styles.text.primary,
+                  styles.border.hover,
+                  styles.text.primaryHover
+                )}
                 disabled={loading}
                 >
                     검색
@@ -193,7 +201,11 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
 
             <button 
                 onClick={onWriteClick}
-                className={`w-[88px] h-[32px] bg-[#d6e4ff] border-[2px] ${styles.border.active} ${styles.text.active} font-medium hover:bg-blue-300 mr-[8px]`}
+                className={cn(
+                  'w-[88px] h-[32px] bg-[#d6e4ff] border-[2px] font-medium hover:bg-blue-300 mr-[8px]',
+                  styles.border.active,
+                  styles.text.active
+                )}
             >
                 글쓰기
             </button>
@@ -221,7 +233,13 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`${styles.pagination.pageNumber(currentPage === page)} ${page === 1 ? 'ml-[16px]' : 'ml-[8px]'}`}
+              className={cn(
+                'w-[12px] py-[4px] h-[28px]',
+                page === 1 ? 'ml-[16px]' : 'ml-[8px]',
+                currentPage === page
+                  ? 'text-blue-800 border-b-[2px] border-[#355194]'
+                  : 'hover:text-[#355194]'
+              )}
               disabled={loading}
             >
               {page}
@@ -229,7 +247,7 @@ export default function NoticeList({ onWriteClick, onDetailClick }: NoticeListPr
           ))}
           <button
             onClick={() => handlePageChange(Math.min(Math.ceil(total / itemsPerPage), currentPage + 1))}
-            className={`${styles.pagination.button} ml-[16px]`}
+            className={cn(styles.pagination.button, 'ml-[16px]')}
             disabled={loading || currentPage === Math.ceil(total / itemsPerPage)}
           >
             {'>'}

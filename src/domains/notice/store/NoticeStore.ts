@@ -333,7 +333,6 @@ export const useNoticeStore = create<NoticeState>((set, get) => ({
     set({ passwordLoading: true, passwordError: null });
 
     try {
-      // SHA256 해싱 (브라우저 환경)
       const encoder = new TextEncoder();
       const encodedData = encoder.encode(password);
       const hashBuffer = await crypto.subtle.digest('SHA-256', encodedData);

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@store/global/authStore';
 import { useNoticeStore } from '@domains/notice/store/NoticeStore';
+import { cn } from '@util/index';
 
 interface NoticeDetailProps {
   noticeId: number;
@@ -153,7 +154,7 @@ export default function NoticeDetail({
         </div>
         <button
           onClick={onBackClick}
-          className={`mt-4 px-4 py-2 ${styles.button.secondary}`}
+          className={cn('mt-4 px-4 py-2', styles.button.secondary)}
         >
           목록으로 돌아가기
         </button>
@@ -165,7 +166,7 @@ export default function NoticeDetail({
     <div className={styles.container}>
       <h1 className={styles.title}>공지사항</h1>
 
-      <div className={`${styles.border.divider} ${styles.spacing.mt160}`} />
+      <div className={cn(styles.border.divider, styles.spacing.mt160)} />
 
       <div className={styles.spacing.mt32}>
         {isEditing ? (
@@ -174,35 +175,44 @@ export default function NoticeDetail({
               type="text"
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
-              className={`${styles.input.base} ${styles.input.title}`}
+              className={cn(styles.input.base, styles.input.title)}
             />
             <textarea
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
-              className={`${styles.input.base} ${styles.input.textarea}`}
+              className={cn(styles.input.base, styles.input.textarea)}
             />
           </>
         ) : (
           <>
             <h2 className={styles.text.detailTitle}>{notice.title}</h2>
-            <div className={`flex justify-between items-center py-[16px] ${styles.border.bottom} ${styles.border.primary}`}>
+            <div className={cn(
+              'flex justify-between items-center py-[16px]',
+              styles.border.bottom,
+              styles.border.primary
+            )}>
               <div className="text-gray-600">
                 <span className="mr-[24px]">작성일: {formatDate(notice.createdAt)}</span>
                 <span>수정일: {formatDate(notice.updatedAt)}</span>
               </div>
             </div>
-            <div className={`${styles.spacing.mt32} ${styles.spacing.mb32} ${styles.text.content} whitespace-pre-wrap`}>
+            <div className={cn(
+              styles.spacing.mt32,
+              styles.spacing.mb32,
+              styles.text.content,
+              'whitespace-pre-wrap'
+            )}>
               {notice.content}
             </div>
           </>
         )}
 
         {notice.images && notice.images.length > 0 && !isEditing && (
-          <div className={`${styles.spacing.mt32} ${styles.spacing.mb32}`}>
+          <div className={cn(styles.spacing.mt32, styles.spacing.mb32)}>
             <h3 className={styles.text.subtitle}>첨부 이미지</h3>
             <div className="grid grid-cols-2 gap-[16px]">
               {notice.images.map((image) => (
-                <div key={image.id} className={`border ${styles.border.primary} rounded overflow-hidden`}>
+                <div key={image.id} className={cn('border rounded overflow-hidden', styles.border.primary)}>
                   <img src={image.url} alt="공지사항 이미지" className="w-full h-auto" />
                 </div>
               ))}
@@ -210,10 +220,19 @@ export default function NoticeDetail({
           </div>
         )}
 
-        <div className={`${styles.border.top} ${styles.border.primary} ${styles.spacing.mt32} ${styles.spacing.mb32}`}>
+        <div className={cn(
+          styles.border.top,
+          styles.border.primary,
+          styles.spacing.mt32,
+          styles.spacing.mb32
+        )}>
           {notice.prevNotice && (
             <div
-              className={`${styles.navigation.item} ${styles.border.bottom} ${styles.border.primary}`}
+              className={cn(
+                styles.navigation.item,
+                styles.border.bottom,
+                styles.border.primary
+              )}
               onClick={() => onPrevClick?.(notice.prevNotice!.id)}
             >
               <span className={styles.navigation.label}>이전글</span>
@@ -232,18 +251,18 @@ export default function NoticeDetail({
         </div>
       </div>
 
-      <div className={`flex justify-center gap-[12px] ${styles.spacing.mt48} ${styles.spacing.mb112}`}>
+      <div className={cn('flex justify-center gap-[12px]', styles.spacing.mt48, styles.spacing.mb112)}>
         {isEditing ? (
           <>
             <button
               onClick={handleUpdateNotice}
-              className={`${styles.button.base} ${styles.button.success}`}
+              className={cn(styles.button.base, styles.button.success)}
             >
               수정 완료
             </button>
             <button
               onClick={() => setIsEditing(false)}
-              className={`${styles.button.base} ${styles.button.secondary}`}
+              className={cn(styles.button.base, styles.button.secondary)}
             >
               취소
             </button>
@@ -252,19 +271,19 @@ export default function NoticeDetail({
           <>
             <button
               onClick={handleEditClick}
-              className={`${styles.button.base} ${styles.button.primary}`}
+              className={cn(styles.button.base, styles.button.primary)}
             >
               수정
             </button>
             <button
               onClick={handleDeleteClick}
-              className={`${styles.button.base} ${styles.button.danger}`}
+              className={cn(styles.button.base, styles.button.danger)}
             >
               삭제
             </button>
             <button
               onClick={onBackClick}
-              className={`${styles.button.base} ${styles.button.secondary}`}
+              className={cn(styles.button.base, styles.button.secondary)}
             >
               목록으로
             </button>
